@@ -301,6 +301,24 @@ The declaration of the function type looks like this.</p>
     Ap(a)[b]
 }
 </code></pre>
+<h5 id="restriction-on-lattice-types-in-arguments"><a class="header" href="#restriction-on-lattice-types-in-arguments">Restriction on lattice types in arguments</a></h5>
+<p>It is not possible to use lattice types in the arguments of constructors or destructors of data and codata types.
+For example, the following type is not allowed:</p>
+<pre><code>data Foo :  CBN {
+    Bar(Top)
+}; 
+</code></pre>
+<p>Without this restriction, lattice types will occur in positions in which they are not allowed.
+For the example above, <code>Top</code> occurs in a negative position in the typing rule for the constructor:</p>
+<pre><code>Gamma |- e :prd tau     tau &lt;: Top
+------------------------------------T-Ctor
+Gamma |- Bar(e) :prd Foo
+</code></pre>
+<p>but in a positive position in the typing rule for the destructor:</p>
+<pre><code>Gamma, x : Top |- c :cmd
+--------------------------------------- T-Match
+Gamma |- case { Bar(x) =&gt; c } :cns Foo
+</code></pre>
 <h2 id="structural-types"><a class="header" href="#structural-types">Structural Types</a></h2>
 <p>Nominal data and codata types define a new type together with all of its constructors (resp. destructors).
 But sometimes it is more useful to have a more structural type, where we can introduce new constructors and destructors at arbitrary places in the program.
