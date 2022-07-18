@@ -119,6 +119,34 @@ codata Fun : (-a : CBV, +b CBV) -> CBN {
 }
 ```
 
+##### Restriction on lattice types in arguments
+
+It is not possible to use lattice types in the arguments of constructors or destructors of data and codata types.
+For example, the following type is not allowed:
+
+```
+data Foo :  CBN {
+    Bar(Top)
+}; 
+```
+
+Without this restriction, lattice types will occur in positions in which they are not allowed.
+For the example above, `Top` occurs in a negative position in the typing rule for the constructor:
+
+```
+Gamma |- e :prd tau     tau <: Top
+------------------------------------T-Ctor
+Gamma |- Bar(e) :prd Foo
+```
+
+but in a positive position in the typing rule for the destructor:
+
+```
+Gamma, x : Top |- c :cmd
+--------------------------------------- T-Match
+Gamma |- case { Bar(x) => c } :cns Foo
+```
+
 ## Structural Types
 
 Nominal data and codata types define a new type together with all of its constructors (resp. destructors).
