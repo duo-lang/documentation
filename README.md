@@ -1,6 +1,8 @@
-# Documentation
+# Duo Documentation
+[![Publish Docs on GH Page](https://github.com/duo-lang/documentation/actions/workflows/docs.yml/badge.svg)](https://github.com/duo-lang/documentation/actions/workflows/docs.yml)
 
-This folder contains the documentation for Duo.
+The rendered documentation is available at [duo-lang.github.io/documentation](https://duo-lang.github.io/documentation/)
+
 The docs are written in Markdown, and we use [mdbook](https://github.com/rust-lang/mdBook) to compile them to a html page.
 The manual for mdbook can be found [here](https://rust-lang.github.io/mdBook/).
 
