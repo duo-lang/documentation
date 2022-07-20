@@ -1,41 +1,5 @@
 # Types
 
-## Kinds and Evaluation Order
-
-Most languages choose one evaluation strategy.
-Strict languages like OCaml, SML or F# choose a call-by-value (CBV) evaluation strategy, whereas non-strict languages choose either
-call-by-name (CBN) or call-by-need.
-Duo is not comitted to either strategy.
-Instead, the user can choose between two different evaluation strategies for each type individually.
-The two evaluation strategies are:
-
-| Evaluation Order | Explanation    |
-|------------------|----------------|
-| CBV              | Call-by-value  |
-| CBN              | Call-by-name   |
-
-The different evaluation strategies are reflected in the kinds of types.
-Instead of having only one inhabitated kind, usually written `*` in the type theory literature, there are several different kinds which classify inhabitated types.
-These inhabitated kinds are called "MonoKind". Currently there are four different MonoKinds, one for each of boxed values of CBV and CBN types, and one for each of the primitive unboxed types.
-
-| MonoKind         | Explanation                       |
-|------------------|-----------------------------------|
-| CBV              | The kind of boxed CBV types       |
-| CBN              | The kind of boxed CBN types       |
-| I64Rep           | The kind of the unboxed #I64 type | 
-| F64Rep           | The kind of the unboxed #F64 type |
-
-Higher kinds are the kinds given to type constructors.
-Since the only available type constructors in Duo construct CBV or CBN types, they follow the following restricted grammar.
-Each argument in a PolyKind has a variance, either `+` for covariant arguments or `-` for contravariant arguments, a type variable `a`, and a
-MonoKind of type type variable, `mk`.
-
-| PolyKind          | Explanation                       |
-|-------------------|-----------------------------------|
-| (+-a : mk)* -> eo | Polykind                          |
-| CBV               | Syntactic sugar for () -> CBV     |
-| CBN               | Syntactic sugar for () -> CBN     |
-
 ## Builtin Types
 
 There are two builtin types which correspond to numeric types supported by most modern architectures.
