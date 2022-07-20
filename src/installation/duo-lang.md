@@ -22,7 +22,7 @@ Version 2.7.3, Git revision 7927a3...
 Clone the duo repository to your system:
 
 ```
-git clone git@github.com:ps-tuebingen/duo-lang.git
+git clone git@github.com:duo-lang/duo-lang.git
 ```
 
 Then, change into the duo-lang directory and use stack to build the binary
@@ -42,7 +42,6 @@ We use `stack install` for this.
 ```
 
 It is possible that you have to add the directory that the program was installed to to your `$PATH` environment variable.
-
 Verify that the duo binary has been correctly installed by querying it for its version:
 
 ```console
