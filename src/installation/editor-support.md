@@ -6,7 +6,7 @@ The editor integration uses the language server protocol, so it should be possib
 ## Installing the VSCode extension
 
 We provide a prebuilt `.vsix` extension which can be installed as an extension to VSCode.
-The prebuilt extension is available as a release on our [GitHub page](https://github.com/duo-lang/vscode-plugin).
+The prebuilt extension is available as a release on our [GitHub page](https://github.com/duo-lang/vscode-plugin/releases/tag/latest) .
 Once you have downloaded the extension, use the following command to install the extension as a plugin in VSCode.
 
 ```console
