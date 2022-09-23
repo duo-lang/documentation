@@ -1,18 +1,29 @@
 # Types
 
-## Builtin Types
+Duo currently has the following general classes of types:
 
-There are two builtin types which correspond to numeric types supported by most modern architectures.
+- [Primitive types](types.md#primitive-types) which are hardwired in the compiler and cannot be defined by the user.
+- [Nominal types](types.md#nominal-types) include the familiar algebraic data types from languages like Haskell, Scala, ML or Rust, but also their dual: codata types.
+- [Structural types](types.md#structural-types)
+- [Refinement types](types.md#structural-refinement-types)
+- [Lattice types](types.md#lattice-types) are the types which stem from the availability of subtyping in Duo. Lattice types include unions, intersections, top and bottom types.
+- [Equi-recursive types](types.md#equirecursive-types) are types `rec a. tau` which are indistinguishable from their unfolding `tau [rec a.tau / a]`.
+
+## Primitive Types
+
+There are four builtin types which correspond to numeric types supported by most modern architectures, as well as types for characters and strings.
 The builtin types are given in the following table.
 
-| Type       | Kind    | Explanation                                     |
-|------------|---------|-------------------------------------------------|
-| #I64       | I64Rep  | Unboxed signed 64-Bit integers                  |
-| #F64       | F64Rep  | Unboxed 64-Bit precision floating point numbers |
+| Type       | Kind      | Explanation                                     |
+|------------|-----------|-------------------------------------------------|
+| #I64       | I64Rep    | Unboxed signed 64-Bit integers                  |
+| #F64       | F64Rep    | Unboxed 64-Bit precision floating point numbers |
+| #Char      | CharRep   | Unboxed character                               |
+| #String    | StringRep | Unboxed string                                  |
 
 Each Builtin type has its own kind, which reflects the fact that these types are unboxed.
 Since they are unboxed, it is in general not possible to apply a polymorphic function to an argument of a builtin type.
-The standard library provides wrappers in the `I64.ds` and `F64.ds` modules which provide the boxed variants of the builtin unboxed types.
+The standard library provides wrappers in the `std/Prim/I64.duo`, `std/Prim/F64.duo` and `std/Prim/Strings.duo` modules which provide the boxed variants of the builtin unboxed types.
 
 ## Nominal Types
 
@@ -199,3 +210,6 @@ In particular, unions and intersections, as well as the top and bottom elements 
 | S \\/ T | The union of S and T                        |  
 | S /\ T | The intersection of S and T                 |
 
+## Equirecursive types
+
+Duo accepts and infers equi-recursive types of the form `rec a. tau` which are, for the typechecker, indistinguishable from their unfolding `tau [ rec a. tau / a ]`.

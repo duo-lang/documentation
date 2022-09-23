@@ -22,14 +22,16 @@ The two evaluation strategies are call-by-value and call-by-name.
 
 The different evaluation strategies are reflected in the kinds of types.
 Instead of having only one inhabitated kind, usually written `*` in the type theory literature, there are several different kinds which classify inhabitated types.
-These inhabitated kinds are called "MonoKind". Currently there are four different MonoKinds, one for each of boxed values of CBV and CBN types, and one for each of the primitive unboxed types.
+These inhabitated kinds are called "MonoKind". Currently there are six different MonoKinds, one for each of boxed values of CBV and CBN types, and one for each of the primitive unboxed types.
 
-| MonoKind         | Explanation                       |
-|------------------|-----------------------------------|
-| CBV              | The kind of boxed CBV types       |
-| CBN              | The kind of boxed CBN types       |
-| I64Rep           | The kind of the unboxed #I64 type | 
-| F64Rep           | The kind of the unboxed #F64 type |
+| MonoKind         | Explanation                         |
+|------------------|-------------------------------------|
+| CBV              | The kind of boxed CBV types         |
+| CBN              | The kind of boxed CBN types         |
+| I64Rep           | The kind of the unboxed #I64 type   | 
+| F64Rep           | The kind of the unboxed #F64 type   |
+| CharRep          | The kind of the unboxed Char type   |
+| StringRep        | The kind of the unboxed String type |
 
 
 ## Higher Kinds
