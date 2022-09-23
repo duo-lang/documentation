@@ -77,7 +77,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../preface.html">Preface</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">Installation</li><li class="chapter-item expanded "><a href="../installation/duo-lang.html"><strong aria-hidden="true">1.</strong> Installing Duo</a></li><li class="chapter-item expanded "><a href="../installation/editor-support.html"><strong aria-hidden="true">2.</strong> Editor Integration</a></li><li class="chapter-item expanded affix "><li class="part-title">The Duo Language</li><li class="chapter-item expanded "><a href="../language/types.html" class="active"><strong aria-hidden="true">3.</strong> Types</a></li><li class="chapter-item expanded "><a href="../language/terms.html"><strong aria-hidden="true">4.</strong> Terms</a></li><li class="chapter-item expanded "><a href="../language/commands.html"><strong aria-hidden="true">5.</strong> Commands</a></li><li class="chapter-item expanded affix "><li class="part-title">Formal Specification</li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.</strong> Specification</div></li><li class="chapter-item expanded affix "><li class="part-title">Language Server Features</li><li class="chapter-item expanded "><a href="../features/features.html"><strong aria-hidden="true">7.</strong> LSP Features</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><a href="../further-reading.html">Further Reading</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../preface.html">Preface</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">Installation</li><li class="chapter-item expanded "><a href="../installation/duo-lang.html"><strong aria-hidden="true">1.</strong> Installing Duo</a></li><li class="chapter-item expanded "><a href="../installation/editor-support.html"><strong aria-hidden="true">2.</strong> Editor Integration</a></li><li class="chapter-item expanded affix "><li class="part-title">The Duo Language</li><li class="chapter-item expanded "><a href="../language/declarations.html"><strong aria-hidden="true">3.</strong> Declarations</a></li><li class="chapter-item expanded "><a href="../language/kinds.html"><strong aria-hidden="true">4.</strong> Kinds</a></li><li class="chapter-item expanded "><a href="../language/types.html" class="active"><strong aria-hidden="true">5.</strong> Types</a></li><li class="chapter-item expanded "><a href="../language/terms.html"><strong aria-hidden="true">6.</strong> Terms</a></li><li class="chapter-item expanded "><a href="../language/commands.html"><strong aria-hidden="true">7.</strong> Commands</a></li><li class="chapter-item expanded affix "><li class="part-title">Formal Specification</li><li class="chapter-item expanded "><div><strong aria-hidden="true">8.</strong> Specification</div></li><li class="chapter-item expanded affix "><li class="part-title">Language Server Features</li><li class="chapter-item expanded "><a href="../features/features.html"><strong aria-hidden="true">9.</strong> LSP Features</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><a href="../further-reading.html">Further Reading</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -143,45 +143,27 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="types"><a class="header" href="#types">Types</a></h1>
-<h2 id="kinds-and-evaluation-order"><a class="header" href="#kinds-and-evaluation-order">Kinds and Evaluation Order</a></h2>
-<p>Most languages choose one evaluation strategy.
-Strict languages like OCaml, SML or F# choose a call-by-value (CBV) evaluation strategy, whereas non-strict languages choose either
-call-by-name (CBN) or call-by-need.
-Duo is not comitted to either strategy.
-Instead, the user can choose between two different evaluation strategies for each type individually.
-The two evaluation strategies are:</p>
-<table><thead><tr><th>Evaluation Order</th><th>Explanation</th></tr></thead><tbody>
-<tr><td>CBV</td><td>Call-by-value</td></tr>
-<tr><td>CBN</td><td>Call-by-name</td></tr>
-</tbody></table>
-<p>The different evaluation strategies are reflected in the kinds of types.
-Instead of having only one inhabitated kind, usually written <code>*</code> in the type theory literature, there are several different kinds which classify inhabitated types.
-These inhabitated kinds are called &quot;MonoKind&quot;. Currently there are four different MonoKinds, one for each of boxed values of CBV and CBN types, and one for each of the primitive unboxed types.</p>
-<table><thead><tr><th>MonoKind</th><th>Explanation</th></tr></thead><tbody>
-<tr><td>CBV</td><td>The kind of boxed CBV types</td></tr>
-<tr><td>CBN</td><td>The kind of boxed CBN types</td></tr>
-<tr><td>I64Rep</td><td>The kind of the unboxed #I64 type</td></tr>
-<tr><td>F64Rep</td><td>The kind of the unboxed #F64 type</td></tr>
-</tbody></table>
-<p>Higher kinds are the kinds given to type constructors.
-Since the only available type constructors in Duo construct CBV or CBN types, they follow the following restricted grammar.
-Each argument in a PolyKind has a variance, either <code>+</code> for covariant arguments or <code>-</code> for contravariant arguments, a type variable <code>a</code>, and a
-MonoKind of type type variable, <code>mk</code>.</p>
-<table><thead><tr><th>PolyKind</th><th>Explanation</th></tr></thead><tbody>
-<tr><td>(+-a : mk)* -&gt; eo</td><td>Polykind</td></tr>
-<tr><td>CBV</td><td>Syntactic sugar for () -&gt; CBV</td></tr>
-<tr><td>CBN</td><td>Syntactic sugar for () -&gt; CBN</td></tr>
-</tbody></table>
-<h2 id="builtin-types"><a class="header" href="#builtin-types">Builtin Types</a></h2>
-<p>There are two builtin types which correspond to numeric types supported by most modern architectures.
+<p>Duo currently has the following general classes of types:</p>
+<ul>
+<li><a href="types.html#primitive-types">Primitive types</a> which are hardwired in the compiler and cannot be defined by the user.</li>
+<li><a href="types.html#nominal-types">Nominal types</a> include the familiar algebraic data types from languages like Haskell, Scala, ML or Rust, but also their dual: codata types.</li>
+<li><a href="types.html#structural-types">Structural types</a></li>
+<li><a href="types.html#structural-refinement-types">Refinement types</a></li>
+<li><a href="types.html#lattice-types">Lattice types</a> are the types which stem from the availability of subtyping in Duo. Lattice types include unions, intersections, top and bottom types.</li>
+<li><a href="types.html#equirecursive-types">Equi-recursive types</a> are types <code>rec a. tau</code> which are indistinguishable from their unfolding <code>tau [rec a.tau / a]</code>.</li>
+</ul>
+<h2 id="primitive-types"><a class="header" href="#primitive-types">Primitive Types</a></h2>
+<p>There are four builtin types which correspond to numeric types supported by most modern architectures, as well as types for characters and strings.
 The builtin types are given in the following table.</p>
 <table><thead><tr><th>Type</th><th>Kind</th><th>Explanation</th></tr></thead><tbody>
 <tr><td>#I64</td><td>I64Rep</td><td>Unboxed signed 64-Bit integers</td></tr>
 <tr><td>#F64</td><td>F64Rep</td><td>Unboxed 64-Bit precision floating point numbers</td></tr>
+<tr><td>#Char</td><td>CharRep</td><td>Unboxed character</td></tr>
+<tr><td>#String</td><td>StringRep</td><td>Unboxed string</td></tr>
 </tbody></table>
 <p>Each Builtin type has its own kind, which reflects the fact that these types are unboxed.
 Since they are unboxed, it is in general not possible to apply a polymorphic function to an argument of a builtin type.
-The standard library provides wrappers in the <code>I64.ds</code> and <code>F64.ds</code> modules which provide the boxed variants of the builtin unboxed types.</p>
+The standard library provides wrappers in the <code>std/Prim/I64.duo</code>, <code>std/Prim/F64.duo</code> and <code>std/Prim/Strings.duo</code> modules which provide the boxed variants of the builtin unboxed types.</p>
 <h2 id="nominal-types"><a class="header" href="#nominal-types">Nominal Types</a></h2>
 <p>Duo has two different variants of nominal types; nominal data types and nominal codata types.</p>
 <h4 id="nominal-data-types"><a class="header" href="#nominal-data-types">Nominal Data Types</a></h4>
@@ -303,12 +285,14 @@ In particular, unions and intersections, as well as the top and bottom elements 
 <tr><td>S \/ T</td><td>The union of S and T</td></tr>
 <tr><td>S /\ T</td><td>The intersection of S and T</td></tr>
 </tbody></table>
+<h2 id="equirecursive-types"><a class="header" href="#equirecursive-types">Equirecursive types</a></h2>
+<p>Duo accepts and infers equi-recursive types of the form <code>rec a. tau</code> which are, for the typechecker, indistinguishable from their unfolding <code>tau [ rec a. tau / a ]</code>.</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../installation/editor-support.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../language/kinds.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
                             <a rel="next" href="../language/terms.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
@@ -320,7 +304,7 @@ In particular, unions and intersections, as well as the top and bottom elements 
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../installation/editor-support.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../language/kinds.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
                     <a rel="next" href="../language/terms.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">

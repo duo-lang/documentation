@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Editor Integration - Duo - Documentation</title>
+        <title>Kinds - Duo - Documentation</title>
         <!-- Custom HTML head -->
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="Documentation of the Duo language">
@@ -77,7 +77,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../preface.html">Preface</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">Installation</li><li class="chapter-item expanded "><a href="../installation/duo-lang.html"><strong aria-hidden="true">1.</strong> Installing Duo</a></li><li class="chapter-item expanded "><a href="../installation/editor-support.html" class="active"><strong aria-hidden="true">2.</strong> Editor Integration</a></li><li class="chapter-item expanded affix "><li class="part-title">The Duo Language</li><li class="chapter-item expanded "><a href="../language/declarations.html"><strong aria-hidden="true">3.</strong> Declarations</a></li><li class="chapter-item expanded "><a href="../language/kinds.html"><strong aria-hidden="true">4.</strong> Kinds</a></li><li class="chapter-item expanded "><a href="../language/types.html"><strong aria-hidden="true">5.</strong> Types</a></li><li class="chapter-item expanded "><a href="../language/terms.html"><strong aria-hidden="true">6.</strong> Terms</a></li><li class="chapter-item expanded "><a href="../language/commands.html"><strong aria-hidden="true">7.</strong> Commands</a></li><li class="chapter-item expanded affix "><li class="part-title">Formal Specification</li><li class="chapter-item expanded "><div><strong aria-hidden="true">8.</strong> Specification</div></li><li class="chapter-item expanded affix "><li class="part-title">Language Server Features</li><li class="chapter-item expanded "><a href="../features/features.html"><strong aria-hidden="true">9.</strong> LSP Features</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><a href="../further-reading.html">Further Reading</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../preface.html">Preface</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">Installation</li><li class="chapter-item expanded "><a href="../installation/duo-lang.html"><strong aria-hidden="true">1.</strong> Installing Duo</a></li><li class="chapter-item expanded "><a href="../installation/editor-support.html"><strong aria-hidden="true">2.</strong> Editor Integration</a></li><li class="chapter-item expanded affix "><li class="part-title">The Duo Language</li><li class="chapter-item expanded "><a href="../language/declarations.html"><strong aria-hidden="true">3.</strong> Declarations</a></li><li class="chapter-item expanded "><a href="../language/kinds.html" class="active"><strong aria-hidden="true">4.</strong> Kinds</a></li><li class="chapter-item expanded "><a href="../language/types.html"><strong aria-hidden="true">5.</strong> Types</a></li><li class="chapter-item expanded "><a href="../language/terms.html"><strong aria-hidden="true">6.</strong> Terms</a></li><li class="chapter-item expanded "><a href="../language/commands.html"><strong aria-hidden="true">7.</strong> Commands</a></li><li class="chapter-item expanded affix "><li class="part-title">Formal Specification</li><li class="chapter-item expanded "><div><strong aria-hidden="true">8.</strong> Specification</div></li><li class="chapter-item expanded affix "><li class="part-title">Language Server Features</li><li class="chapter-item expanded "><a href="../features/features.html"><strong aria-hidden="true">9.</strong> LSP Features</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><a href="../further-reading.html">Further Reading</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -115,7 +115,7 @@
                         <a href="https://github.com/duo-lang/documentation" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        <a href="https://github.com/duo-lang/documentation/edit/main/docs/src/installation/editor-support.md" title="Suggest an edit" aria-label="Suggest an edit">
+                        <a href="https://github.com/duo-lang/documentation/edit/main/docs/src/language/kinds.md" title="Suggest an edit" aria-label="Suggest an edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
                     </div>
@@ -142,28 +142,51 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="editor-integration"><a class="header" href="#editor-integration">Editor Integration</a></h1>
-<p>Editor integration is currently available for VSCode and vim.
-The editor integration uses the language server protocol, so it should be possible to support other editors in the future.</p>
-<h2 id="installing-the-vscode-extension"><a class="header" href="#installing-the-vscode-extension">Installing the VSCode extension</a></h2>
-<p>We provide a prebuilt <code>.vsix</code> extension which can be installed as an extension to VSCode.
-The prebuilt extension is available as a release on our <a href="https://github.com/duo-lang/vscode-plugin/releases/tag/latest">GitHub page</a> .
-Once you have downloaded the extension, use the following command to install the extension as a plugin in VSCode.</p>
-<pre><code class="language-console">code --install-extension duo-lang-client-0.0.1.vsix
-</code></pre>
-<p>The extension itself provides syntax highlighting and indentation support.
-The advanced features are implemented using a language server, and require the <code>duo</code> binary to be available on the path.</p>
-<h2 id="installing-the-vim-extension"><a class="header" href="#installing-the-vim-extension">Installing the vim extension</a></h2>
-<p>For installing the vim extension, please follow the instructions on the corresponding <a href="https://github.com/duo-lang/vim-plugin">GitHub page</a>.</p>
+                        <h1 id="kinds"><a class="header" href="#kinds">Kinds</a></h1>
+<p>Most languages choose one evaluation strategy and use that strategy globally.
+Strict languages like OCaml, SML or F# choose a call-by-value (CBV) evaluation strategy, whereas non-strict languages choose either call-by-name (CBN) or call-by-need.
+Instead of comitting to a global evaluation strategy, the evaluation strategy in Duo is specified for every type individually, and this choice is then reflected in the kind of that type.
+It is possible, for example, to have both strict booleans and lazy booleans within the same language.
+The difference between strict booleans and lazy booleans is then recorded on the level of kinds.
+For strict booleans we would have <code>StrictBool : CBV</code>, and for lazy booleans <code>LazyBool : CBN</code>, where <code>CBV</code> and <code>CBN</code> replace the single kind <code>*</code> of inhabitated types that other languages have.</p>
+<h2 id="evaluation-orders"><a class="header" href="#evaluation-orders">Evaluation Orders</a></h2>
+<p>Duo currently supports two different evaluation strategies.
+The two evaluation strategies are call-by-value and call-by-name.</p>
+<table><thead><tr><th>Evaluation Order</th><th>Explanation</th></tr></thead><tbody>
+<tr><td>CBV</td><td>Call-by-value</td></tr>
+<tr><td>CBN</td><td>Call-by-name</td></tr>
+</tbody></table>
+<h2 id="inhabitated-kinds"><a class="header" href="#inhabitated-kinds">Inhabitated Kinds</a></h2>
+<p>The different evaluation strategies are reflected in the kinds of types.
+Instead of having only one inhabitated kind, usually written <code>*</code> in the type theory literature, there are several different kinds which classify inhabitated types.
+These inhabitated kinds are called &quot;MonoKind&quot;. Currently there are six different MonoKinds, one for each of boxed values of CBV and CBN types, and one for each of the primitive unboxed types.</p>
+<table><thead><tr><th>MonoKind</th><th>Explanation</th></tr></thead><tbody>
+<tr><td>CBV</td><td>The kind of boxed CBV types</td></tr>
+<tr><td>CBN</td><td>The kind of boxed CBN types</td></tr>
+<tr><td>I64Rep</td><td>The kind of the unboxed #I64 type</td></tr>
+<tr><td>F64Rep</td><td>The kind of the unboxed #F64 type</td></tr>
+<tr><td>CharRep</td><td>The kind of the unboxed Char type</td></tr>
+<tr><td>StringRep</td><td>The kind of the unboxed String type</td></tr>
+</tbody></table>
+<h2 id="higher-kinds"><a class="header" href="#higher-kinds">Higher Kinds</a></h2>
+<p>Higher kinds are the kinds given to type constructors.
+Since the only available type constructors in Duo construct CBV or CBN types, they follow the following restricted grammar.
+Each argument in a PolyKind has a variance, either <code>+</code> for covariant arguments or <code>-</code> for contravariant arguments, a type variable <code>a</code>, and a
+MonoKind of type type variable, <code>mk</code>.</p>
+<table><thead><tr><th>PolyKind</th><th>Explanation</th></tr></thead><tbody>
+<tr><td>(+-a : mk)* -&gt; eo</td><td>Polykind</td></tr>
+<tr><td>CBV</td><td>Syntactic sugar for () -&gt; CBV</td></tr>
+<tr><td>CBN</td><td>Syntactic sugar for () -&gt; CBN</td></tr>
+</tbody></table>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../installation/duo-lang.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../language/declarations.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
-                            <a rel="next" href="../language/declarations.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="../language/types.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
                         <div style="clear: both"></div>
@@ -172,10 +195,10 @@ The advanced features are implemented using a language server, and require the <
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../installation/duo-lang.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../language/declarations.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
-                    <a rel="next" href="../language/declarations.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next" href="../language/types.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

@@ -77,7 +77,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../preface.html">Preface</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">Installation</li><li class="chapter-item expanded "><a href="../installation/duo-lang.html" class="active"><strong aria-hidden="true">1.</strong> Installing Duo</a></li><li class="chapter-item expanded "><a href="../installation/editor-support.html"><strong aria-hidden="true">2.</strong> Editor Integration</a></li><li class="chapter-item expanded affix "><li class="part-title">The Duo Language</li><li class="chapter-item expanded "><a href="../language/types.html"><strong aria-hidden="true">3.</strong> Types</a></li><li class="chapter-item expanded "><a href="../language/terms.html"><strong aria-hidden="true">4.</strong> Terms</a></li><li class="chapter-item expanded "><a href="../language/commands.html"><strong aria-hidden="true">5.</strong> Commands</a></li><li class="chapter-item expanded affix "><li class="part-title">Formal Specification</li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.</strong> Specification</div></li><li class="chapter-item expanded affix "><li class="part-title">Language Server Features</li><li class="chapter-item expanded "><a href="../features/features.html"><strong aria-hidden="true">7.</strong> LSP Features</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><a href="../further-reading.html">Further Reading</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../preface.html">Preface</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">Installation</li><li class="chapter-item expanded "><a href="../installation/duo-lang.html" class="active"><strong aria-hidden="true">1.</strong> Installing Duo</a></li><li class="chapter-item expanded "><a href="../installation/editor-support.html"><strong aria-hidden="true">2.</strong> Editor Integration</a></li><li class="chapter-item expanded affix "><li class="part-title">The Duo Language</li><li class="chapter-item expanded "><a href="../language/declarations.html"><strong aria-hidden="true">3.</strong> Declarations</a></li><li class="chapter-item expanded "><a href="../language/kinds.html"><strong aria-hidden="true">4.</strong> Kinds</a></li><li class="chapter-item expanded "><a href="../language/types.html"><strong aria-hidden="true">5.</strong> Types</a></li><li class="chapter-item expanded "><a href="../language/terms.html"><strong aria-hidden="true">6.</strong> Terms</a></li><li class="chapter-item expanded "><a href="../language/commands.html"><strong aria-hidden="true">7.</strong> Commands</a></li><li class="chapter-item expanded affix "><li class="part-title">Formal Specification</li><li class="chapter-item expanded "><div><strong aria-hidden="true">8.</strong> Specification</div></li><li class="chapter-item expanded affix "><li class="part-title">Language Server Features</li><li class="chapter-item expanded "><a href="../features/features.html"><strong aria-hidden="true">9.</strong> LSP Features</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><a href="../further-reading.html">Further Reading</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -157,7 +157,7 @@ Version 2.7.3, Git revision 7927a3...
 </code></pre>
 <h2 id="building-duo-from-the-sources"><a class="header" href="#building-duo-from-the-sources">Building Duo from the sources</a></h2>
 <p>Clone the duo repository to your system:</p>
-<pre><code>git clone git@github.com:ps-tuebingen/duo-lang.git
+<pre><code>git clone git@github.com:duo-lang/duo-lang.git
 </code></pre>
 <p>Then, change into the duo-lang directory and use stack to build the binary</p>
 <pre><code class="language-console">&gt; stack build
@@ -168,8 +168,8 @@ Subsequent compilations will be much faster.</p>
 We use <code>stack install</code> for this.</p>
 <pre><code class="language-console">&gt; stack install
 </code></pre>
-<p>It is possible that you have to add the directory that the program was installed to to your <code>$PATH</code> environment variable.</p>
-<p>Verify that the duo binary has been correctly installed by querying it for its version:</p>
+<p>It is possible that you have to add the directory that the program was installed to to your <code>$PATH</code> environment variable.
+Verify that the duo binary has been correctly installed by querying it for its version:</p>
 <pre><code class="language-console">&gt; duo --version
 Duo Version: 0.1.0.0
 Git Commit: 81ec55800707cfdcd43a685d2e6fecd44a0429b8

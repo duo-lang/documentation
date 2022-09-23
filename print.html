@@ -78,7 +78,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="preface.html">Preface</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">Installation</li><li class="chapter-item expanded "><a href="installation/duo-lang.html"><strong aria-hidden="true">1.</strong> Installing Duo</a></li><li class="chapter-item expanded "><a href="installation/editor-support.html"><strong aria-hidden="true">2.</strong> Editor Integration</a></li><li class="chapter-item expanded affix "><li class="part-title">The Duo Language</li><li class="chapter-item expanded "><a href="language/types.html"><strong aria-hidden="true">3.</strong> Types</a></li><li class="chapter-item expanded "><a href="language/terms.html"><strong aria-hidden="true">4.</strong> Terms</a></li><li class="chapter-item expanded "><a href="language/commands.html"><strong aria-hidden="true">5.</strong> Commands</a></li><li class="chapter-item expanded affix "><li class="part-title">Formal Specification</li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.</strong> Specification</div></li><li class="chapter-item expanded affix "><li class="part-title">Language Server Features</li><li class="chapter-item expanded "><a href="features/features.html"><strong aria-hidden="true">7.</strong> LSP Features</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><a href="further-reading.html">Further Reading</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="preface.html">Preface</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">Installation</li><li class="chapter-item expanded "><a href="installation/duo-lang.html"><strong aria-hidden="true">1.</strong> Installing Duo</a></li><li class="chapter-item expanded "><a href="installation/editor-support.html"><strong aria-hidden="true">2.</strong> Editor Integration</a></li><li class="chapter-item expanded affix "><li class="part-title">The Duo Language</li><li class="chapter-item expanded "><a href="language/declarations.html"><strong aria-hidden="true">3.</strong> Declarations</a></li><li class="chapter-item expanded "><a href="language/kinds.html"><strong aria-hidden="true">4.</strong> Kinds</a></li><li class="chapter-item expanded "><a href="language/types.html"><strong aria-hidden="true">5.</strong> Types</a></li><li class="chapter-item expanded "><a href="language/terms.html"><strong aria-hidden="true">6.</strong> Terms</a></li><li class="chapter-item expanded "><a href="language/commands.html"><strong aria-hidden="true">7.</strong> Commands</a></li><li class="chapter-item expanded affix "><li class="part-title">Formal Specification</li><li class="chapter-item expanded "><div><strong aria-hidden="true">8.</strong> Specification</div></li><li class="chapter-item expanded affix "><li class="part-title">Language Server Features</li><li class="chapter-item expanded "><a href="features/features.html"><strong aria-hidden="true">9.</strong> LSP Features</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><a href="further-reading.html">Further Reading</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -187,7 +187,7 @@ Version 2.7.3, Git revision 7927a3...
 </code></pre>
 <h2 id="building-duo-from-the-sources"><a class="header" href="#building-duo-from-the-sources">Building Duo from the sources</a></h2>
 <p>Clone the duo repository to your system:</p>
-<pre><code>git clone git@github.com:ps-tuebingen/duo-lang.git
+<pre><code>git clone git@github.com:duo-lang/duo-lang.git
 </code></pre>
 <p>Then, change into the duo-lang directory and use stack to build the binary</p>
 <pre><code class="language-console">&gt; stack build
@@ -198,15 +198,15 @@ Subsequent compilations will be much faster.</p>
 We use <code>stack install</code> for this.</p>
 <pre><code class="language-console">&gt; stack install
 </code></pre>
-<p>It is possible that you have to add the directory that the program was installed to to your <code>$PATH</code> environment variable.</p>
-<p>Verify that the duo binary has been correctly installed by querying it for its version:</p>
+<p>It is possible that you have to add the directory that the program was installed to to your <code>$PATH</code> environment variable.
+Verify that the duo binary has been correctly installed by querying it for its version:</p>
 <pre><code class="language-console">&gt; duo --version
 Duo Version: 0.1.0.0
 Git Commit: 81ec55800707cfdcd43a685d2e6fecd44a0429b8
 Git Branch: main
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="editor-integration"><a class="header" href="#editor-integration">Editor Integration</a></h1>
-<p>Editor integration is currently only available for VSCode.
+<p>Editor integration is currently available for VSCode and vim.
 The editor integration uses the language server protocol, so it should be possible to support other editors in the future.</p>
 <h2 id="installing-the-vscode-extension"><a class="header" href="#installing-the-vscode-extension">Installing the VSCode extension</a></h2>
 <p>We provide a prebuilt <code>.vsix</code> extension which can be installed as an extension to VSCode.
@@ -216,27 +216,142 @@ Once you have downloaded the extension, use the following command to install the
 </code></pre>
 <p>The extension itself provides syntax highlighting and indentation support.
 The advanced features are implemented using a language server, and require the <code>duo</code> binary to be available on the path.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="types"><a class="header" href="#types">Types</a></h1>
-<h2 id="kinds-and-evaluation-order"><a class="header" href="#kinds-and-evaluation-order">Kinds and Evaluation Order</a></h2>
-<p>Most languages choose one evaluation strategy.
-Strict languages like OCaml, SML or F# choose a call-by-value (CBV) evaluation strategy, whereas non-strict languages choose either
-call-by-name (CBN) or call-by-need.
-Duo is not comitted to either strategy.
-Instead, the user can choose between two different evaluation strategies for each type individually.
-The two evaluation strategies are:</p>
+<h2 id="installing-the-vim-extension"><a class="header" href="#installing-the-vim-extension">Installing the vim extension</a></h2>
+<p>For installing the vim extension, please follow the instructions on the corresponding <a href="https://github.com/duo-lang/vim-plugin">GitHub page</a>.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="toplevel-declarations"><a class="header" href="#toplevel-declarations">Toplevel Declarations</a></h1>
+<p>The following declarations are available at the toplevel of a Duo module.</p>
+<h2 id="import-statements"><a class="header" href="#import-statements">Import statements</a></h2>
+<p>Other Duo modules can be imported using an <code>import</code> declaration.
+The following snippet imports the two modules <code>Function</code> and <code>I64</code>, which have to be declared in corresponding files <code>Function.duo</code> and <code>I64.duo</code>.
+These files have to be available in the library search path.</p>
+<pre><code>import Function;
+import I64;
+</code></pre>
+<p>Circular module imports are not allowed and will generate an error. It is currently not possible to only import some of the declarations of a module, or to import a module qualified.</p>
+<h2 id="type-synonyms"><a class="header" href="#type-synonyms">Type synonyms</a></h2>
+<p>Type synonyms can be defined using the <code>type</code> keyword.
+In the following snippet, a type synonym <code>SBool</code> is defined as an alias for the structural type <code>&lt; True, False &gt;</code>. For the typechecker the two types <code>SBool</code> and <code>&lt; True, False &gt;</code> are indistinguishable.</p>
+<pre><code>constructor True;                                                   
+constructor False;                                                  
+                                                                    
+type SBool := &lt; True, False &gt;;  
+</code></pre>
+<p>Parameterized type synonyms are currently not yet implemented.</p>
+<h2 id="type-operators"><a class="header" href="#type-operators">Type operators</a></h2>
+<p>Duo supports binary type operators with user-specified associativity and precedence.
+For example, the function type and the <code>-&gt;</code> operator are specified in the following manner:</p>
+<pre><code>-- | The function type
+codata Fun : (-a : CBV, +b : CBV) -&gt; CBN {
+    Ap(a,return b)
+};
+
+type operator -&gt; rightassoc at 0 := Fun;
+</code></pre>
+<p>This first defines the codata type <code>Fun</code> and then introduces the arrow symbol as a custom notation for the <code>Fun</code> type with right associativity and precedence level 0.
+Every data and codata type has to be introduced with a lexical identifier, <code>Fun</code> in this example, before a type operator can be introduced for the type.
+The right-hand side of a type operator declaration expects the name of a typeconstructor with arity 2.
+Nullary and unary type operators are currently not implemented.</p>
+<h2 id="data-and-codata-declarations"><a class="header" href="#data-and-codata-declarations">Data and codata declarations</a></h2>
+<h2 id="constructor-and-destructor-declarations-for-structural-types"><a class="header" href="#constructor-and-destructor-declarations-for-structural-types">Constructor and destructor declarations for structural types</a></h2>
+<p>Structural types, i.e. polymorphic variants and structural records, require their respective constructors and destructors to be declared at the toplevel before they can be used.
+This is different to, for example, OCaml, where a backtick in front of the name of the constructor is used.
+This design was chosen for the following reasons:</p>
+<ul>
+<li>Docstrings can be attached to the constructors at the declaration site, and these docstrings can be displayed on hover at the respective use sites.</li>
+<li>Typos in the names of constructors of polymorphic variants can be detected early.</li>
+<li>Since the evaluation of expressions in Duo is kind-directed, we need a place to specify how constructors and destructors of structural types are to be evaluated.</li>
+</ul>
+<h4 id="constructor-declarations"><a class="header" href="#constructor-declarations">Constructor declarations</a></h4>
+<p>In order to define a structural variant of booleans, the following two declarations can be used.</p>
+<pre><code>constructor True;
+constructor False;
+</code></pre>
+<p>In this case, no evaluation order has been specified, and in the case of constructors this defaults to <code>CBV</code>.
+I.e. the above declaration is a shorthand for the more explicit declaration:</p>
+<pre><code>constructor True : CBV;
+constructor False : CBV;
+</code></pre>
+<p>For constructors which take arguments the user has to specify the evaluation order used for the respective argument position.
+Structural peano natural numbers where the argument to the successor constructor is evaluated eagerly are declared as follows:</p>
+<pre><code>constructor Z;
+constructor S(CBV);
+</code></pre>
+<p>which, again, is shorthand for</p>
+<pre><code>constructor Z : CBV;
+constructor S(CBV) : CBV;
+</code></pre>
+<p>These constructors then occur in <a href="language/types.html#structural-data-types">structural data types</a> like <code>&lt; True, False&gt; </code> or <code>&lt; S(&lt; Z &gt;)&gt;</code>.</p>
+<h4 id="destructor-declarations"><a class="header" href="#destructor-declarations">Destructor declarations</a></h4>
+<p>Destructor declarations are similar to constructor declarations, with one difference.
+If you don't specify a evaluation order for the destructor, it defaults to CBN evaluation.
+Hence, the declaration</p>
+<pre><code>destructor Name(CBV);
+</code></pre>
+<p>is shorthand for the declaration</p>
+<pre><code>destructor Name(CBV) : CBN;
+</code></pre>
+<p>These destructors then occur in <a href="language/types.html#structural-codata-types">structural codata types</a> like <code>{ Name(String) }</code>.</p>
+<h2 id="producer-declarations"><a class="header" href="#producer-declarations">Producer declarations</a></h2>
+<p>A producer is declared using the <code>def prd</code> syntax.
+An optional type signature can be specified.</p>
+<pre><code>def prd two := S(S(Z));
+
+def prd three: Nat := S(S(S(Z)));
+
+def prd id: forall a. a -&gt; a := \x =&gt; x;
+</code></pre>
+<p>By default, producers defined using the <code>def prd</code> keywords are not recursive.
+For recursive definitions, the keyword <code>rec</code> has to be added.</p>
+<h2 id="consumer-declarations"><a class="header" href="#consumer-declarations">Consumer declarations</a></h2>
+<p>A consumer is declared using the <code>def cns</code> syntax.
+An optional type signature can be specified.</p>
+<pre><code>def cns exitOnBool := match {
+    True =&gt; ExitSuccess;
+    False =&gt; ExitFailure;
+};
+
+def cns exitOnBool: Bool := match {
+    True =&gt; ExitSuccess;
+    False =&gt; ExitFailure;
+};
+</code></pre>
+<p>By default, consumers defined using the <code>def cns</code> keywords are not recursive.
+For recursive definitions, the keyword <code>rec</code> has to be added.</p>
+<h2 id="command-declarations"><a class="header" href="#command-declarations">Command declarations</a></h2>
+<p>A command is declared using the <code>def cmd</code> syntax.
+Commands have no type, and it is therefore not possible to write a type signature.</p>
+<pre><code>def cmd exit := ExitFailure;
+
+def cmd main := ExitSuccess;
+</code></pre>
+<p>The command called &quot;main&quot; is treated specially, since execution starts with the execution of the &quot;main&quot; command.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="kinds"><a class="header" href="#kinds">Kinds</a></h1>
+<p>Most languages choose one evaluation strategy and use that strategy globally.
+Strict languages like OCaml, SML or F# choose a call-by-value (CBV) evaluation strategy, whereas non-strict languages choose either call-by-name (CBN) or call-by-need.
+Instead of comitting to a global evaluation strategy, the evaluation strategy in Duo is specified for every type individually, and this choice is then reflected in the kind of that type.
+It is possible, for example, to have both strict booleans and lazy booleans within the same language.
+The difference between strict booleans and lazy booleans is then recorded on the level of kinds.
+For strict booleans we would have <code>StrictBool : CBV</code>, and for lazy booleans <code>LazyBool : CBN</code>, where <code>CBV</code> and <code>CBN</code> replace the single kind <code>*</code> of inhabitated types that other languages have.</p>
+<h2 id="evaluation-orders"><a class="header" href="#evaluation-orders">Evaluation Orders</a></h2>
+<p>Duo currently supports two different evaluation strategies.
+The two evaluation strategies are call-by-value and call-by-name.</p>
 <table><thead><tr><th>Evaluation Order</th><th>Explanation</th></tr></thead><tbody>
 <tr><td>CBV</td><td>Call-by-value</td></tr>
 <tr><td>CBN</td><td>Call-by-name</td></tr>
 </tbody></table>
+<h2 id="inhabitated-kinds"><a class="header" href="#inhabitated-kinds">Inhabitated Kinds</a></h2>
 <p>The different evaluation strategies are reflected in the kinds of types.
 Instead of having only one inhabitated kind, usually written <code>*</code> in the type theory literature, there are several different kinds which classify inhabitated types.
-These inhabitated kinds are called &quot;MonoKind&quot;. Currently there are four different MonoKinds, one for each of boxed values of CBV and CBN types, and one for each of the primitive unboxed types.</p>
+These inhabitated kinds are called &quot;MonoKind&quot;. Currently there are six different MonoKinds, one for each of boxed values of CBV and CBN types, and one for each of the primitive unboxed types.</p>
 <table><thead><tr><th>MonoKind</th><th>Explanation</th></tr></thead><tbody>
 <tr><td>CBV</td><td>The kind of boxed CBV types</td></tr>
 <tr><td>CBN</td><td>The kind of boxed CBN types</td></tr>
 <tr><td>I64Rep</td><td>The kind of the unboxed #I64 type</td></tr>
 <tr><td>F64Rep</td><td>The kind of the unboxed #F64 type</td></tr>
+<tr><td>CharRep</td><td>The kind of the unboxed Char type</td></tr>
+<tr><td>StringRep</td><td>The kind of the unboxed String type</td></tr>
 </tbody></table>
+<h2 id="higher-kinds"><a class="header" href="#higher-kinds">Higher Kinds</a></h2>
 <p>Higher kinds are the kinds given to type constructors.
 Since the only available type constructors in Duo construct CBV or CBN types, they follow the following restricted grammar.
 Each argument in a PolyKind has a variance, either <code>+</code> for covariant arguments or <code>-</code> for contravariant arguments, a type variable <code>a</code>, and a
@@ -246,16 +361,28 @@ MonoKind of type type variable, <code>mk</code>.</p>
 <tr><td>CBV</td><td>Syntactic sugar for () -&gt; CBV</td></tr>
 <tr><td>CBN</td><td>Syntactic sugar for () -&gt; CBN</td></tr>
 </tbody></table>
-<h2 id="builtin-types"><a class="header" href="#builtin-types">Builtin Types</a></h2>
-<p>There are two builtin types which correspond to numeric types supported by most modern architectures.
+<div style="break-before: page; page-break-before: always;"></div><h1 id="types"><a class="header" href="#types">Types</a></h1>
+<p>Duo currently has the following general classes of types:</p>
+<ul>
+<li><a href="language/types.html#primitive-types">Primitive types</a> which are hardwired in the compiler and cannot be defined by the user.</li>
+<li><a href="language/types.html#nominal-types">Nominal types</a> include the familiar algebraic data types from languages like Haskell, Scala, ML or Rust, but also their dual: codata types.</li>
+<li><a href="language/types.html#structural-types">Structural types</a></li>
+<li><a href="language/types.html#structural-refinement-types">Refinement types</a></li>
+<li><a href="language/types.html#lattice-types">Lattice types</a> are the types which stem from the availability of subtyping in Duo. Lattice types include unions, intersections, top and bottom types.</li>
+<li><a href="language/types.html#equirecursive-types">Equi-recursive types</a> are types <code>rec a. tau</code> which are indistinguishable from their unfolding <code>tau [rec a.tau / a]</code>.</li>
+</ul>
+<h2 id="primitive-types"><a class="header" href="#primitive-types">Primitive Types</a></h2>
+<p>There are four builtin types which correspond to numeric types supported by most modern architectures, as well as types for characters and strings.
 The builtin types are given in the following table.</p>
 <table><thead><tr><th>Type</th><th>Kind</th><th>Explanation</th></tr></thead><tbody>
 <tr><td>#I64</td><td>I64Rep</td><td>Unboxed signed 64-Bit integers</td></tr>
 <tr><td>#F64</td><td>F64Rep</td><td>Unboxed 64-Bit precision floating point numbers</td></tr>
+<tr><td>#Char</td><td>CharRep</td><td>Unboxed character</td></tr>
+<tr><td>#String</td><td>StringRep</td><td>Unboxed string</td></tr>
 </tbody></table>
 <p>Each Builtin type has its own kind, which reflects the fact that these types are unboxed.
 Since they are unboxed, it is in general not possible to apply a polymorphic function to an argument of a builtin type.
-The standard library provides wrappers in the <code>I64.ds</code> and <code>F64.ds</code> modules which provide the boxed variants of the builtin unboxed types.</p>
+The standard library provides wrappers in the <code>std/Prim/I64.duo</code>, <code>std/Prim/F64.duo</code> and <code>std/Prim/Strings.duo</code> modules which provide the boxed variants of the builtin unboxed types.</p>
 <h2 id="nominal-types"><a class="header" href="#nominal-types">Nominal Types</a></h2>
 <p>Duo has two different variants of nominal types; nominal data types and nominal codata types.</p>
 <h4 id="nominal-data-types"><a class="header" href="#nominal-data-types">Nominal Data Types</a></h4>
@@ -377,6 +504,8 @@ In particular, unions and intersections, as well as the top and bottom elements 
 <tr><td>S \/ T</td><td>The union of S and T</td></tr>
 <tr><td>S /\ T</td><td>The intersection of S and T</td></tr>
 </tbody></table>
+<h2 id="equirecursive-types"><a class="header" href="#equirecursive-types">Equirecursive types</a></h2>
+<p>Duo accepts and infers equi-recursive types of the form <code>rec a. tau</code> which are, for the typechecker, indistinguishable from their unfolding <code>tau [ rec a. tau / a ]</code>.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="terms"><a class="header" href="#terms">Terms</a></h1>
 <p>Duo is based on a term language for the sequent calculus.
 In distinction to lambda calculus, the term language of natural deduction, we have a first-class treatment of both
