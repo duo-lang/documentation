@@ -1,54 +1,29 @@
 # Types
 
-## Kinds and Evaluation Order
+Duo currently has the following general classes of types:
 
-Most languages choose one evaluation strategy.
-Strict languages like OCaml, SML or F# choose a call-by-value (CBV) evaluation strategy, whereas non-strict languages choose either
-call-by-name (CBN) or call-by-need.
-Duo is not comitted to either strategy.
-Instead, the user can choose between two different evaluation strategies for each type individually.
-The two evaluation strategies are:
+- [Primitive types](types.md#primitive-types) which are hardwired in the compiler and cannot be defined by the user.
+- [Nominal types](types.md#nominal-types) include the familiar algebraic data types from languages like Haskell, Scala, ML or Rust, but also their dual: codata types.
+- [Structural types](types.md#structural-types)
+- [Refinement types](types.md#structural-refinement-types)
+- [Lattice types](types.md#lattice-types) are the types which stem from the availability of subtyping in Duo. Lattice types include unions, intersections, top and bottom types.
+- [Equi-recursive types](types.md#equirecursive-types) are types `rec a. tau` which are indistinguishable from their unfolding `tau [rec a.tau / a]`.
 
-| Evaluation Order | Explanation    |
-|------------------|----------------|
-| CBV              | Call-by-value  |
-| CBN              | Call-by-name   |
+## Primitive Types
 
-The different evaluation strategies are reflected in the kinds of types.
-Instead of having only one inhabitated kind, usually written `*` in the type theory literature, there are several different kinds which classify inhabitated types.
-These inhabitated kinds are called "MonoKind". Currently there are four different MonoKinds, one for each of boxed values of CBV and CBN types, and one for each of the primitive unboxed types.
-
-| MonoKind         | Explanation                       |
-|------------------|-----------------------------------|
-| CBV              | The kind of boxed CBV types       |
-| CBN              | The kind of boxed CBN types       |
-| I64Rep           | The kind of the unboxed #I64 type | 
-| F64Rep           | The kind of the unboxed #F64 type |
-
-Higher kinds are the kinds given to type constructors.
-Since the only available type constructors in Duo construct CBV or CBN types, they follow the following restricted grammar.
-Each argument in a PolyKind has a variance, either `+` for covariant arguments or `-` for contravariant arguments, a type variable `a`, and a
-MonoKind of type type variable, `mk`.
-
-| PolyKind          | Explanation                       |
-|-------------------|-----------------------------------|
-| (+-a : mk)* -> eo | Polykind                          |
-| CBV               | Syntactic sugar for () -> CBV     |
-| CBN               | Syntactic sugar for () -> CBN     |
-
-## Builtin Types
-
-There are two builtin types which correspond to numeric types supported by most modern architectures.
+There are four builtin types which correspond to numeric types supported by most modern architectures, as well as types for characters and strings.
 The builtin types are given in the following table.
 
-| Type       | Kind    | Explanation                                     |
-|------------|---------|-------------------------------------------------|
-| #I64       | I64Rep  | Unboxed signed 64-Bit integers                  |
-| #F64       | F64Rep  | Unboxed 64-Bit precision floating point numbers |
+| Type       | Kind      | Explanation                                     |
+|------------|-----------|-------------------------------------------------|
+| #I64       | I64Rep    | Unboxed signed 64-Bit integers                  |
+| #F64       | F64Rep    | Unboxed 64-Bit precision floating point numbers |
+| #Char      | CharRep   | Unboxed character                               |
+| #String    | StringRep | Unboxed string                                  |
 
 Each Builtin type has its own kind, which reflects the fact that these types are unboxed.
 Since they are unboxed, it is in general not possible to apply a polymorphic function to an argument of a builtin type.
-The standard library provides wrappers in the `I64.ds` and `F64.ds` modules which provide the boxed variants of the builtin unboxed types.
+The standard library provides wrappers in the `std/Prim/I64.duo`, `std/Prim/F64.duo` and `std/Prim/Strings.duo` modules which provide the boxed variants of the builtin unboxed types.
 
 ## Nominal Types
 
@@ -235,3 +210,6 @@ In particular, unions and intersections, as well as the top and bottom elements 
 | S \\/ T | The union of S and T                        |  
 | S /\ T | The intersection of S and T                 |
 
+## Equirecursive types
+
+Duo accepts and infers equi-recursive types of the form `rec a. tau` which are, for the typechecker, indistinguishable from their unfolding `tau [ rec a. tau / a ]`.

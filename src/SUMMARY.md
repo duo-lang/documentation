@@ -11,6 +11,8 @@
 
 # The Duo Language
 
+- [Declarations](./language/declarations.md)
+- [Kinds](./language/kinds.md)
 - [Types](./language/types.md)
 - [Terms](./language/terms.md)
 - [Commands](./language/commands.md)

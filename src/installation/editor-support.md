@@ -1,6 +1,6 @@
 # Editor Integration
 
-Editor integration is currently only available for VSCode.
+Editor integration is currently available for VSCode and vim.
 The editor integration uses the language server protocol, so it should be possible to support other editors in the future.
 
 ## Installing the VSCode extension
@@ -14,3 +14,7 @@ code --install-extension duo-lang-client-0.0.1.vsix
 ```
 The extension itself provides syntax highlighting and indentation support.
 The advanced features are implemented using a language server, and require the `duo` binary to be available on the path.
+
+## Installing the vim extension
+
+For installing the vim extension, please follow the instructions on the corresponding [GitHub page](https://github.com/duo-lang/vim-plugin).
