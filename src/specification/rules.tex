@@ -32,10 +32,11 @@ Only a subset of this syntax is a valid Duo program.
 \subsubsection{Variables and Identifiers}
 \[
   \begin{array}{lclr}
-    \nonterminal{var} & \Coloneqq & [a..z][a..zA..Z0..9] & \emph{Variables} \\
-    \nonterminal{tyvar} & \Coloneqq & [a..z][a..zA..Z0..9] & \emph{Type Variables} \\
-    \nonterminal{tyname} & \Coloneqq & [A..Z][a..zA..Z0..9] & \emph{Type Names} \\
-    \nonterminal{xtorname} & \Coloneqq & [A..Z][a..zA..Z0..9] & \emph{Xtor Names} \\
+    \nonterminal{var} & \Coloneqq & [a..z][a..zA..Z0..9] & \emph{Variable} \\
+    \nonterminal{tyvar} & \Coloneqq & [a..z][a..zA..Z0..9] & \emph{Type Variable} \\
+    \nonterminal{tyname} & \Coloneqq & [A..Z][a..zA..Z0..9] & \emph{Type Name} \\
+    \nonterminal{xtorname} & \Coloneqq & [A..Z][a..zA..Z0..9] & \emph{Xtor Name} \\
+    \nonterminal{modulename} & \Coloneqq &  [A..Z][a..zA..Z0..9] & \emph{Module Name} \\
   \end{array}
 \]
 
@@ -83,6 +84,37 @@ Only a subset of this syntax is a valid Duo program.
   \end{array}
 \]
 
+\subsubsection{Kinds}
+\[
+  \begin{array}{lclr}
+    \nonterminal{evalorder} & \Coloneqq & \terminal{CBV}\ |\ \terminal{CBN} & \emph{Evaluation Order} \\
+    \nonterminal{monokind} & \Coloneqq & \nonterminal{evalorder} & \emph{Monokind} \\
+    & | & \terminal{I64Rep} & \emph{I64Rep} \\
+    & | & \terminal{F64Rep} & \emph{F64Rep} \\
+    & | & \terminal{StringRep} & \emph{StringRep} \\
+    & | & \terminal{CharRep} & \emph{CharRep} \\
+    \nonterminal{variance} & \Coloneqq & \terminal{+}\ |\ \terminal{-} & \emph{Variance} \\
+    \nonterminal{polykind$-$p} & \Coloneqq & \nonterminal{variance}\nonterminal{tyvar} \terminal{:} \nonterminal{monokind} & \emph{Polykind Parameter} \\
+    \nonterminal{polykind} & \Coloneqq & \terminal{(} (\nonterminal{polykind$-$p})^{\ast}\terminal{)} \terminal{$\rightarrow$} \nonterminal{monokind} & \emph{Polykind} \\
+  \end{array}
+\]
+\subsubsection{Types}
+\[
+  \begin{array}{lclr}
+    \nonterminal{monotype} & \Coloneqq & \ldots & \emph{Monotype} \\
+    \nonterminal{forall} & \Coloneqq & \terminal{$\forall$}\ |\ \terminal{forall} & \emph{Forall} \\
+    \nonterminal{polytype} & \Coloneqq & \nonterminal{monotype} & \emph{Polytype} \\
+    & | & \nonterminal{forall} (\nonterminal{tyvar}\ |\ \terminal{(} \nonterminal{tyvar} \terminal{:} \nonterminal{evalorder}\terminal{)})^{\ast}\terminal{.} \nonterminal{monotype} & \emph{Typescheme} \\
+  \end{array}
+\]
+\subsubsection{Declarations and Modules}
+
+\[
+  \begin{array}{lclr}
+    \nonterminal{decl} & \Coloneqq & \ldots  & \emph{Declaration} \\
+    \nonterminal{mod} & \Coloneqq & \terminal{module} \nonterminal{modulename} \terminal{;} \nonterminal{decl}^{\ast}& \emph{Module}
+  \end{array}
+\]
 
 \section{Duo Semantics}
 
