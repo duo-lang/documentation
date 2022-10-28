@@ -137,7 +137,9 @@ We use the abbreviation $\semicolonlist{x}$ in the grammar for a semicolon-separ
 
 \[
   \begin{array}{lclr}
-    \nonterminal{datadecl} & \Coloneqq & \ldots & \emph{Data declaration} \\
+    \nonterminal{dc} & \Coloneqq & \terminal{data}\ |\ \terminal{codata} & \emph{Data / Codata} \\
+    \nonterminal{xtor} & \Coloneqq & \nonterminal{xtorname}[\terminal{(}\commalist{\nonterminal{monotype}}\terminal{)}] & \emph{Xtor} \\
+    \nonterminal{datadecl} & \Coloneqq & \nonterminal{dc} \nonterminal{tyname} [\terminal{:} \nonterminal{polykind}] \terminal{$\{$} \commalist{\nonterminal{xtor}}\terminal{$\};$} & \emph{Data declaration} \\
     \nonterminal{xtordecl$-$p} & \Coloneqq & [\terminal{(} \commalist{\nonterminal{evalorder}} \terminal{)}] [\terminal{:} \nonterminal{evalorder}] & \emph{Xtor Parameter} \\
     \nonterminal{xtordecl} & \Coloneqq & \terminal{constructor} \nonterminal{xtorname} \nonterminal{xtordecl$-$p}\terminal{;} & \emph{Constructor} \\
     & | & \terminal{destructor} \nonterminal{xtorname}\nonterminal{xtordecl$-$p} \terminal{;} & \emph{Destructor} \\
