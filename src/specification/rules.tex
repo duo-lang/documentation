@@ -109,10 +109,18 @@ We use the abbreviation $\semicolonlist{x}$ in the grammar for a semicolon-separ
 \subsubsection{Types}
 \[
   \begin{array}{lclr}
-    \nonterminal{monotype} & \Coloneqq & \ldots & \emph{Monotype} \\
+    \nonterminal{top} & \Coloneqq & \terminal{Top} & \emph{Top Type} \\
+    \nonterminal{bot} & \Coloneqq & \terminal{Bot} & \emph{Bot Type} \\
+    \nonterminal{union} & \Coloneqq & \terminal{$X$} & \emph{Union Type} \\
+    \nonterminal{inter} & \Coloneqq & \terminal{$X$} & \emph{Intersection Type} \\
+    \nonterminal{tybinop} & \Coloneqq & \nonterminal{union}\ |\ \nonterminal{inter} & \emph{Binary type operator} \\
+    \nonterminal{monotype} & \Coloneqq & \nonterminal{top}\ |\ \nonterminal{bot} & \emph{Monotype} \\
+    & | & \nonterminal{monotype} \nonterminal{tybinop} \nonterminal{monotype} & \emph{X} \\
+    & | & \terminal{rec} \nonterminal{tyvar} \terminal{.} \nonterminal{monotype} & \emph{Recursive type} \\
     \nonterminal{forall} & \Coloneqq & \terminal{$\forall$}\ |\ \terminal{forall} & \emph{Forall} \\
+    \nonterminal{polytype$-$p} & \Coloneqq & \nonterminal{tyvar}\ |\ \terminal{(} \nonterminal{tyvar} \terminal{:} \nonterminal{evalorder}\terminal{)} & \emph{Polytype Parameter} \\
     \nonterminal{polytype} & \Coloneqq & \nonterminal{monotype} & \emph{Polytype} \\
-    & | & \nonterminal{forall} (\nonterminal{tyvar}\ |\ \terminal{(} \nonterminal{tyvar} \terminal{:} \nonterminal{evalorder}\terminal{)})^{\ast}\terminal{.} \nonterminal{monotype} & \emph{Typescheme} \\
+    & | & \nonterminal{forall} \nonterminal{polytype$-$p}^{\ast}\terminal{.} \nonterminal{monotype} & \emph{Typescheme} \\
   \end{array}
 \]
 \subsubsection{Declarations and Modules}
@@ -120,16 +128,20 @@ We use the abbreviation $\semicolonlist{x}$ in the grammar for a semicolon-separ
 \[
   \begin{array}{lclr}
     \nonterminal{datadecl} & \Coloneqq & \ldots & \emph{Data declaration} \\
-    \nonterminal{xtordecl} & \Coloneqq & \ldots & \emph{Xtor declaration} \\
-    \nonterminal{tysyndecl} & \Coloneqq & \ldots & \emph{Type synonym declaration} \\
-    \nonterminal{tyopdecl} & \Coloneqq & \ldots & \emph{Type operator declaration} \\
-    \nonterminal{importdecl} & \Coloneqq & \terminal{import} \nonterminal{hmodname}\terminal{;} & \emph{Import declaration} \\
-    \nonterminal{decl} & \Coloneqq & \nonterminal{importdecl}  & \emph{Import declaration} \\
-    & | & \nonterminal{datadecl} & \emph{Data declaration} \\
-    & | & \nonterminal{xtordecl} & \emph{Xtor declaration} \\
-    & | & \nonterminal{tysyndecl} & \emph{Type synonym declaration} \\
-    & | & \nonterminal{tyopdecl} & \emph{Type operator declaration} \\
-    \nonterminal{mod} & \Coloneqq & \terminal{module} \nonterminal{hmodname} \terminal{;} \nonterminal{decl}^{\ast}& \emph{Module}
+    \nonterminal{xtordecl$-$p} & \Coloneqq & [\terminal{(} \commalist{\nonterminal{evalorder}} \terminal{)}] [\terminal{:} \nonterminal{evalorder}] & \emph{Xtor Parameter} \\
+    \nonterminal{xtordecl} & \Coloneqq & \terminal{constructor} \nonterminal{xtorname} \nonterminal{xtordecl$-$p}\terminal{;} & \emph{Constructor} \\
+    & | & \terminal{destructor} \nonterminal{xtorname}\nonterminal{xtordecl$-$p} \terminal{;} & \emph{Destructor} \\
+    \nonterminal{tysyndecl} & \Coloneqq & \ldots & \emph{Type Synonym} \\
+    \nonterminal{tyopdecl} & \Coloneqq & \ldots & \emph{Type Operator} \\
+    \nonterminal{importdecl} & \Coloneqq & \terminal{import} \nonterminal{hmodname}\terminal{;} & \emph{Import} \\
+    \nonterminal{decl} & \Coloneqq & \nonterminal{importdecl}  & \emph{Import} \\
+    & | & \nonterminal{datadecl} & \emph{Data / Codata Type} \\
+    & | & \nonterminal{xtordecl} & \emph{Constructor / Destructor} \\
+    & | & \nonterminal{tysyndecl} & \emph{Type synonym} \\
+    & | & \nonterminal{tyopdecl} & \emph{Type operator} \\
+    \nonterminal{annot} & \Coloneqq & \terminal{- - $|$} \nonterminal{string} & \emph{Doc Comment} \\
+    \nonterminal{adecl} & \Coloneqq & \nonterminal{annot}\nonterminal{decl} & \emph{Annotated Declaration} \\
+    \nonterminal{mod} & \Coloneqq & \terminal{module} \nonterminal{hmodname} \terminal{;} \nonterminal{adecl}^{\ast}& \emph{Module}
   \end{array}
 \]
 
