@@ -146,12 +146,17 @@ We use the abbreviation $\semicolonlist{x}$ in the grammar for a semicolon-separ
     \nonterminal{tysyndecl} & \Coloneqq & \terminal{type} \nonterminal{tyname} \terminal{$:=$} \nonterminal{monotype}\terminal{;} & \emph{Type Synonym} \\
     \nonterminal{assoc} & \Coloneqq & \terminal{leftassoc}\ |\ \terminal{rightassoc} & \emph{Associativity} \\
     \nonterminal{tyopdecl} & \Coloneqq & \terminal{type operator} \nonterminal{binop} \nonterminal{assoc} \terminal{at} \nonterminal{int} \terminal{;} & \emph{Type Operator} \\
+    \nonterminal{cmddecl} & \Coloneqq & \terminal{def cmd} \nonterminal{varname} \terminal{$:=$} \nonterminal{tm} \terminal{;} & \emph{Command} \\
+    \nonterminal{pc} & \Coloneqq & \terminal{prd}\ |\ \terminal{cns} & \emph{Prd / Cns} \\
+    \nonterminal{prdcnsdecl} & \Coloneqq & \terminal{def} [\terminal{rec}] \nonterminal{pc} \nonterminal{varname} [\terminal{:} \nonterminal{polytype}] \terminal{$:=$} \nonterminal{tm} \terminal{;}& \emph{Producer / Consumer} \\
     \nonterminal{importdecl} & \Coloneqq & \terminal{import} \nonterminal{hmodname}\terminal{;} & \emph{Import} \\[4mm]
     \nonterminal{decl} & \Coloneqq & \nonterminal{importdecl}  & \emph{Import} \\
     & | & \nonterminal{datadecl} & \emph{Data / Codata Type} \\
     & | & \nonterminal{xtordecl} & \emph{Constructor / Destructor} \\
     & | & \nonterminal{tysyndecl} & \emph{Type synonym} \\
     & | & \nonterminal{tyopdecl} & \emph{Type operator} \\
+    & | & \nonterminal{cmddecl} & \emph{Command} \\
+    & | & \nonterminal{prdcnsdecl} & \emph{Producer / Consumer} \\
     \nonterminal{annot} & \Coloneqq & \terminal{- - $|$} \nonterminal{string} & \emph{Doc Comment} \\
     \nonterminal{adecl} & \Coloneqq & \nonterminal{annot}\nonterminal{decl} & \emph{Annotated Declaration} \\
     \nonterminal{mod} & \Coloneqq & \terminal{module} \nonterminal{hmodname} \terminal{;} \nonterminal{adecl}^{\ast}& \emph{Module}
