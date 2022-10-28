@@ -81,7 +81,7 @@ We use the abbreviation $\semicolonlist{x}$ in the grammar for a semicolon-separ
     & | & \nonterminal{xtorname}\nonterminal{starsubst}\terminal{;;}\nonterminal{tm} & \emph{Semi} \\
     & | & \nonterminal{tm}\terminal{.}\nonterminal{xtorname}\nonterminal{starsubst} & \emph{Dtor} \\
     & | & \terminal{$\backslash$} \nonterminal{var}^{\ast}\terminal{$=>$} \nonterminal{tm} & \emph{MultiLambda} \\
-    & | & \terminal{$\backslash$} \nonterminal{var}^{\ast}\terminal{$<=$} \nonterminal{tm} & \emph{MultiCoLambda} \\
+    & | & \terminal{$\backslash$} \nonterminal{var}^{\ast}\terminal{$<=$} \nonterminal{tm} & \emph{MultiCo  Lambda} \\
     & | & \nonterminal{tm} \nonterminal{tm} & \emph{FunApp} \\
     & | & \nonterminal{floatlit}\terminal{$\#F64$} & \emph{PrimLitF64} \\
     & | & \nonterminal{intlit}\terminal{$\#I64$} & \emph{PrimLitI64} \\
@@ -116,8 +116,13 @@ We use the abbreviation $\semicolonlist{x}$ in the grammar for a semicolon-separ
     \nonterminal{union} & \Coloneqq & \terminal{$/\backslash$}\ |\ \terminal{$\wedge$} & \emph{Union Type} \\
     \nonterminal{inter} & \Coloneqq & \terminal{$\backslash /$}\ |\ \terminal{$\vee$} & \emph{Intersection Type} \\
     \nonterminal{tybinop} & \Coloneqq & \nonterminal{union}\ |\ \nonterminal{inter}\ |\ \nonterminal{binop} & \emph{Binary type operator} \\
+    \nonterminal{struct$-$p} & \Coloneqq & \nonterminal{xtorname}[\terminal{(}\commalist{\nonterminal{monotype}} \terminal{)}] & \emph{Structural type parameter} \\
     \nonterminal{monotype} & \Coloneqq & \nonterminal{top}\ |\ \nonterminal{bot} & \emph{Monotype} \\
     & | & \nonterminal{monotype} \nonterminal{tybinop} \nonterminal{monotype} & \emph{Binary Type Operator} \\
+    & | & \terminal{$<$} \commalist{\nonterminal{struct$-$p}} \terminal{$>$} & \emph{Struct. Data Type} \\
+    & | & \terminal{$<$} \nonterminal{tyname} \terminal{$|$} \commalist{\nonterminal{struct$-$p}} \terminal{$>$} & \emph{Struct. Data Ref.Type} \\
+    & | & \terminal{$\{$} \commalist{\nonterminal{struct$-$p}} \terminal{$\}$} & \emph{Struct. Codata Type} \\
+    & | & \terminal{$\{$} \nonterminal{tyname} \terminal{$|$} \commalist{\nonterminal{struct$-$p}} \terminal{$\}$} & \emph{Struct. Codata Ref.Type} \\
     & | & \terminal{rec} \nonterminal{tyvar} \terminal{.} \nonterminal{monotype} & \emph{Recursive type} \\
     & | & \nonterminal{tyname}[\terminal{(} \commalist{\nonterminal{monotype}}\terminal{)}] & \emph{Named Type} \\
     & | & \nonterminal{tyvar} & \emph{Type variable} \\
@@ -136,10 +141,10 @@ We use the abbreviation $\semicolonlist{x}$ in the grammar for a semicolon-separ
     \nonterminal{xtordecl$-$p} & \Coloneqq & [\terminal{(} \commalist{\nonterminal{evalorder}} \terminal{)}] [\terminal{:} \nonterminal{evalorder}] & \emph{Xtor Parameter} \\
     \nonterminal{xtordecl} & \Coloneqq & \terminal{constructor} \nonterminal{xtorname} \nonterminal{xtordecl$-$p}\terminal{;} & \emph{Constructor} \\
     & | & \terminal{destructor} \nonterminal{xtorname}\nonterminal{xtordecl$-$p} \terminal{;} & \emph{Destructor} \\
-    \nonterminal{tysyndecl} & \Coloneqq & \ldots & \emph{Type Synonym} \\
+    \nonterminal{tysyndecl} & \Coloneqq & \terminal{type} \nonterminal{tyname} \terminal{$:=$} \nonterminal{monotype}\terminal{;} & \emph{Type Synonym} \\
     \nonterminal{assoc} & \Coloneqq & \terminal{leftassoc}\ |\ \terminal{rightassoc} & \emph{Associativity} \\
     \nonterminal{tyopdecl} & \Coloneqq & \terminal{type operator} \nonterminal{binop} \nonterminal{assoc} \terminal{at} \nonterminal{int} \terminal{;} & \emph{Type Operator} \\
-    \nonterminal{importdecl} & \Coloneqq & \terminal{import} \nonterminal{hmodname}\terminal{;} & \emph{Import} \\
+    \nonterminal{importdecl} & \Coloneqq & \terminal{import} \nonterminal{hmodname}\terminal{;} & \emph{Import} \\[4mm]
     \nonterminal{decl} & \Coloneqq & \nonterminal{importdecl}  & \emph{Import} \\
     & | & \nonterminal{datadecl} & \emph{Data / Codata Type} \\
     & | & \nonterminal{xtordecl} & \emph{Constructor / Destructor} \\
