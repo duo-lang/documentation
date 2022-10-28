@@ -78,8 +78,8 @@ We use the abbreviation $\semicolonlist{x}$ in the grammar for a semicolon-separ
     & | & \terminal{case}\ \nonterminal{tm}\ \terminal{of}\ \terminal{\{} (\nonterminal{pat} \terminal{$=>$} \nonterminal{tm})^{\ast} \terminal{\}} & \emph{CaseOf} \\
     & | & \terminal{cocase}\ \terminal{\{} (\nonterminal{pat} \terminal{$=>$} \nonterminal{tm})^{\ast} \terminal{\}} & \emph{Cocase} \\
     & | & \terminal{cocase}\ \nonterminal{tm}\ \terminal{of}\ \terminal{\{} (\nonterminal{pat} \terminal{$=>$} \nonterminal{tm})^{\ast} \terminal{\}} & \emph{CocaseOf} \\
-    & | & \nonterminal{xtorname}\nonterminal{starsubst}\terminal{;;}\nonterminal{tm} & \emph{Semi} \\
-    & | & \nonterminal{tm}\terminal{.}\nonterminal{xtorname}\nonterminal{starsubst} & \emph{Dtor} \\
+    & | & \nonterminal{xtorname}[\nonterminal{starsubst}]\terminal{;;}\nonterminal{tm} & \emph{Semi} \\
+    & | & \nonterminal{tm}\terminal{.}\nonterminal{xtorname}[\nonterminal{starsubst}] & \emph{Dtor} \\
     & | & \terminal{$\backslash$} \nonterminal{var}^{\ast}\terminal{$=>$} \nonterminal{tm} & \emph{MultiLambda} \\
     & | & \terminal{$\backslash$} \nonterminal{var}^{\ast}\terminal{$<=$} \nonterminal{tm} & \emph{MultiCo  Lambda} \\
     & | & \nonterminal{tm} \nonterminal{tm} & \emph{FunApp} \\
@@ -88,8 +88,8 @@ We use the abbreviation $\semicolonlist{x}$ in the grammar for a semicolon-separ
     & | & \nonterminal{stringlit} & \emph{Primitive String} \\
     & | & \nonterminal{charlit} & \emph{Primitive Char} \\
     & | & \terminal{(} \nonterminal{tm} \terminal{)} & \emph{Parens} \\
-    \nonterminal{subst} & \Coloneqq & \terminal{(} \nonterminal{tm}^{\ast} \terminal{)} & \emph{Substitution} \\
-    \nonterminal{starsubst} & \Coloneqq & \terminal{(} \nonterminal{tm}^{\ast} \terminal{*} \nonterminal{tm}^{\ast} \terminal{)} & \emph{Star Substitution} \\ 
+    \nonterminal{subst} & \Coloneqq & \terminal{(} \commalist{\nonterminal{tm}} \terminal{)} & \emph{Substitution} \\
+    \nonterminal{starsubst} & \Coloneqq & \terminal{(} \commalist{[\nonterminal{tm}}\terminal{,}] \terminal{*} [\terminal{,}\commalist{\nonterminal{tm}}] \terminal{)} & \emph{Star Substitution} \\ 
   \end{array}
 \]
 
