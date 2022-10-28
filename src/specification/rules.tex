@@ -20,6 +20,8 @@
 \newcommand{\nonterminal}[1]{\langle #1 \rangle}
 \newcommand{\terminal}[1]{\colorbox{lightgray}{\vphantom{X}#1}}
 \newcommand{\cut}[2]{\langle\ #1\ |\ #2\ \rangle}
+\newcommand{\commalist}[1]{#1^{\dagger}}
+\newcommand{\semicolonlist}[1]{#1^{\ddagger}}
 
 \begin{document}
 
@@ -28,15 +30,17 @@
 \subsection{Duo Syntax}
 This section describes the syntax as it is implemented in the parser.
 Only a subset of this syntax is a valid Duo program.
+We use the abbreviation $\commalist{x}$ in the grammar for a comma-separated list.
+We use the abbreviation $\semicolonlist{x}$ in the grammar for a semicolon-separated list.
 
 \subsubsection{Variables and Identifiers}
 \[
   \begin{array}{lclr}
-    \nonterminal{var} & \Coloneqq & [a..z][a..zA..Z0..9] & \emph{Variable} \\
-    \nonterminal{tyvar} & \Coloneqq & [a..z][a..zA..Z0..9] & \emph{Type Variable} \\
-    \nonterminal{tyname} & \Coloneqq & [A..Z][a..zA..Z0..9] & \emph{Type Name} \\
-    \nonterminal{xtorname} & \Coloneqq & [A..Z][a..zA..Z0..9] & \emph{Xtor Name} \\
-    \nonterminal{modname} & \Coloneqq &  [A..Z][a..zA..Z0..9] & \emph{Module Name} \\
+    \nonterminal{var} & \Coloneqq & [a..z][a..zA..Z0..9]^{\ast} & \emph{Variable} \\
+    \nonterminal{tyvar} & \Coloneqq & [a..z][a..zA..Z0..9]^{\ast} & \emph{Type Variable} \\
+    \nonterminal{tyname} & \Coloneqq & [A..Z][a..zA..Z0..9]^{\ast} & \emph{Type Name} \\
+    \nonterminal{xtorname} & \Coloneqq & [A..Z][a..zA..Z0..9]^{\ast} & \emph{Xtor Name} \\
+    \nonterminal{modname} & \Coloneqq &  [A..Z][a..zA..Z0..9]^{\ast} & \emph{Module Name} \\
     \nonterminal{hmodname} & \Coloneqq & \nonterminal{modname}(\terminal{.}\nonterminal{modname})^{\ast} & \emph{Hierarchical M. Name}
   \end{array}
 \]
@@ -56,7 +60,7 @@ Only a subset of this syntax is a valid Duo program.
   \begin{array}{lclr}
     \nonterminal{pat} & \Coloneqq & \nonterminal{var} & \emph{Variable Pattern} \\
     & | & \terminal{\_} & \emph{Wildcard Pattern} \\
-    & | & \nonterminal{xtorname}\terminal{(}\nonterminal{pat}^{\ast} \terminal{)} & \emph{Xtor Pattern}\\
+    & | & \nonterminal{xtorname}\terminal{(}\commalist{\nonterminal{pat}} \terminal{)} & \emph{Xtor Pattern}\\
     & | & \terminal{$\ast$} & \emph{Star Pattern} \\
   \end{array}
 \]
@@ -64,8 +68,9 @@ Only a subset of this syntax is a valid Duo program.
 \subsubsection{Terms and Commands}
 \[
   \begin{array}{lclr}
+    \nonterminal{mu} & \Coloneqq & \terminal{mu}\ | \terminal{$\mu$} & \emph{Mu} \\
     \nonterminal{tm} & \Coloneqq & \nonterminal{var} & \emph{Variable} \\
-    & | & \terminal{mu}\ \nonterminal{var} \terminal{.} \nonterminal{tm} & \textit{Mu Abstraction} \\
+    & | & \nonterminal{mu}\ \nonterminal{var} \terminal{.} \nonterminal{tm} & \textit{Mu Abstraction} \\
     & | & \nonterminal{tm} \terminal{$\gg$} \nonterminal{tm} & \textit{Apply} \\
     & | & \nonterminal{xtorname}\nonterminal{subst} & \emph{Xtor} \\
     & | & \terminal{case}\ \terminal{\{} (\nonterminal{pat} \terminal{$\Rightarrow$} \nonterminal{tm})^{\ast} \terminal{\}} & \emph{Case} \\
@@ -80,6 +85,7 @@ Only a subset of this syntax is a valid Duo program.
     & | & \nonterminal{intlit}\terminal{$\#I64$} & \emph{PrimLitI64} \\
     & | & \nonterminal{stringlit} & \emph{Primitive String} \\
     & | & \nonterminal{charlit} & \emph{Primitive Char} \\
+    & | & \terminal{(} \nonterminal{tm} \terminal{)} & \emph{Parens} \\
     \nonterminal{subst} & \Coloneqq & \terminal{(} \nonterminal{tm}^{\ast} \terminal{)} & \emph{Substitution} \\
     \nonterminal{starsubst} & \Coloneqq & \terminal{(} \nonterminal{tm}^{\ast} \terminal{*} \nonterminal{tm}^{\ast} \terminal{)} & \emph{Star Substitution} \\ 
   \end{array}
@@ -96,7 +102,8 @@ Only a subset of this syntax is a valid Duo program.
     & | & \terminal{CharRep} & \emph{CharRep} \\
     \nonterminal{variance} & \Coloneqq & \terminal{+}\ |\ \terminal{-} & \emph{Variance} \\
     \nonterminal{polykind$-$p} & \Coloneqq & \nonterminal{variance}\nonterminal{tyvar} \terminal{:} \nonterminal{monokind} & \emph{Polykind Parameter} \\
-    \nonterminal{polykind} & \Coloneqq & \terminal{(} (\nonterminal{polykind$-$p})^{\ast}\terminal{)} \terminal{$\rightarrow$} \nonterminal{monokind} & \emph{Polykind} \\
+    \nonterminal{polykind} & \Coloneqq & \terminal{(} \commalist{\nonterminal{polykind$-$p}}\terminal{)} \terminal{$\rightarrow$} \nonterminal{evalorder} & \emph{Polykind} \\
+    & | & \nonterminal{evalorder} & \emph{Evaluation Order}
   \end{array}
 \]
 \subsubsection{Types}
