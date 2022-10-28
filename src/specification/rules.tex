@@ -132,7 +132,8 @@ We use the abbreviation $\semicolonlist{x}$ in the grammar for a semicolon-separ
     \nonterminal{xtordecl} & \Coloneqq & \terminal{constructor} \nonterminal{xtorname} \nonterminal{xtordecl$-$p}\terminal{;} & \emph{Constructor} \\
     & | & \terminal{destructor} \nonterminal{xtorname}\nonterminal{xtordecl$-$p} \terminal{;} & \emph{Destructor} \\
     \nonterminal{tysyndecl} & \Coloneqq & \ldots & \emph{Type Synonym} \\
-    \nonterminal{tyopdecl} & \Coloneqq & \ldots & \emph{Type Operator} \\
+    \nonterminal{assoc} & \Coloneqq & \terminal{leftassoc}\ |\ \terminal{rightassoc} & \emph{Associativity} \\
+    \nonterminal{tyopdecl} & \Coloneqq & \terminal{type operator} \nonterminal{binop} \nonterminal{assoc} \terminal{at} \nonterminal{int} \terminal{;} & \emph{Type Operator} \\
     \nonterminal{importdecl} & \Coloneqq & \terminal{import} \nonterminal{hmodname}\terminal{;} & \emph{Import} \\
     \nonterminal{decl} & \Coloneqq & \nonterminal{importdecl}  & \emph{Import} \\
     & | & \nonterminal{datadecl} & \emph{Data / Codata Type} \\
