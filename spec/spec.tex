@@ -7,8 +7,9 @@
 \usepackage{mathtools}
 \usepackage{xcolor}
 \usepackage{csquotes}
+\usepackage{cleveref}
 
-\newcommand{\translate}[1]{\llbracket #1 \rrbracket}
+\newcommand{\desugar}[1]{\llbracket #1 \rrbracket}
 \newcommand{\C}{\mathcal{C}}
 
 \newcommand{\case}[1]{\mathbf{case}\ \{\ #1\ \}}
@@ -46,9 +47,10 @@
 
 \chapter{Desugaring}
 \label{chapter:desugaring}
+\input{desugaring.tex}
 
 \chapter{Compiling (Co)Pattern Matching}
-\label{chap:patterncompilation}
+\label{chapter:patterncompilation}
 
 \chapter{Type Theory}
 \label{chapter:typetheory}
