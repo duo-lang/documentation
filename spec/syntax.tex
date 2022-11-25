@@ -97,7 +97,8 @@ We use the abbreviation $\semicolonlist{x}$ in the grammar for a semicolon-separ
     & | & \terminal{rec} \nonterminal{tyvar} \terminal{.} \nonterminal{monotype} & \emph{Recursive type} \\
     & | & \nonterminal{tyname}[\terminal{(} \commalist{\nonterminal{monotype}}\terminal{)}] & \emph{Named Type} \\
     & | & \nonterminal{tyvar} & \emph{Type variable} \\
-    & | & \terminal{(} \nonterminal{monotype} \terminal{)} & \emph{Parens} \\[4mm]
+    & | & \terminal{(} \nonterminal{monotype} \terminal{)} & \emph{Parens} \\
+    & | & \terminal{(} \nonterminal{monotype} \terminal{:} \nonterminal{monokind} \terminal{)} & \emph{Kind Annotated Type} \\[4mm]
     \nonterminal{forall} & \Coloneqq & \terminal{$\forall$}\ |\ \terminal{forall} & \emph{Forall} \\
     \nonterminal{polytype$-$p} & \Coloneqq & \nonterminal{tyvar}\ |\ \terminal{(} \nonterminal{tyvar} \terminal{:} \nonterminal{evalorder}\terminal{)} & \emph{Polytype Parameter} \\
     \nonterminal{polytype} & \Coloneqq & \nonterminal{monotype} & \emph{Polytype} \\
