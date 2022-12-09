@@ -193,20 +193,20 @@ It currently isn't possible to use invariant type parameters, but such a feature
 A stream has two possible observations, <code>Head</code> and <code>Tail</code>, which we call the destructors of the codata type.
 The destructor <code>Head</code> returns the first element of the stream, and the destructor <code>Tail</code> returns the remainder of the stream.</p>
 <pre><code>codata NatStream : CBN {
-    Head[Nat], 
-    Tail[NatStream]
+    Head(return Nat), 
+    Tail(return NatStream)
 };
 </code></pre>
 <p>Codata types can also be parameterized, similar to the List example of the previous section.</p>
 <pre><code>codata Stream : (+a : CBV) -&gt; CBN {
-    Head[a],
-    Tail[Stream(a)]
+    Head(return a),
+    Tail(return Stream(a))
 };
 </code></pre>
 <p>Codata types make it possible to define the function type, instead of having a builtin function type like most functional programming languages.
 The declaration of the function type looks like this.</p>
 <pre><code>codata Fun : (-a : CBV, +b CBV) -&gt; CBN {
-    Ap(a)[b]
+    Ap(a, return b)
 }
 </code></pre>
 <h5 id="restriction-on-lattice-types-in-arguments"><a class="header" href="#restriction-on-lattice-types-in-arguments">Restriction on lattice types in arguments</a></h5>
@@ -252,18 +252,18 @@ The structural encoding of booleans, for example, looks like this:</p>
 </code></pre>
 <h4 id="structural-codata-types"><a class="header" href="#structural-codata-types">Structural Codata Types</a></h4>
 <p>A destructor of a structural codata type is introduced with a <code>destructor</code> declaration.</p>
-<pre><code>destructor Ap(CBV)[CBN] : CBN;
+<pre><code>destructor Ap(CBV, return CBN) : CBN;
 </code></pre>
 <p>Structural codata types are written using braces. The structural encoding of NatStreams, for example, are written as follows:</p>
-<pre><code>mu a. { Head[Nat], Tail[a] }
+<pre><code>rec a. { Head(return Nat), Tail(return a) }
 </code></pre>
 <h2 id="structural-refinement-types"><a class="header" href="#structural-refinement-types">Structural Refinement Types</a></h2>
 <p>Structural refinement types are a novel idea in Duo which combine features from both nominal and structural types.
 They are declared similarly to nominal types, but use the additional keyword <code>refinement</code> in front of the declaration</p>
 <pre><code>refinement data Bool : CBV { True, False };
 refinement codata NatStream : CBN {
-    Head[Nat],
-    Tail[NatStream]
+    Head(return Nat),
+    Tail(return NatStream)
 };
 </code></pre>
 <p>The syntax for refinement types is very similar to the syntax for structural data and codata types, but the refined type is indicated by a vertical pipe in front of the constructors/destructors.

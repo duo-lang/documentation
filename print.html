@@ -305,14 +305,14 @@ For recursive definitions, the keyword <code>rec</code> has to be added.</p>
 <h2 id="consumer-declarations"><a class="header" href="#consumer-declarations">Consumer declarations</a></h2>
 <p>A consumer is declared using the <code>def cns</code> syntax.
 An optional type signature can be specified.</p>
-<pre><code>def cns exitOnBool := match {
-    True =&gt; ExitSuccess;
-    False =&gt; ExitFailure;
+<pre><code>def cns exitOnBool := case {
+    True =&gt; #ExitSuccess,
+    False =&gt; #ExitFailure
 };
 
-def cns exitOnBool: Bool := match {
-    True =&gt; ExitSuccess;
-    False =&gt; ExitFailure;
+def cns exitOnBool : Bool := case {
+    True =&gt; #ExitSuccess,
+    False =&gt; #ExitFailure
 };
 </code></pre>
 <p>By default, consumers defined using the <code>def cns</code> keywords are not recursive.
@@ -320,9 +320,9 @@ For recursive definitions, the keyword <code>rec</code> has to be added.</p>
 <h2 id="command-declarations"><a class="header" href="#command-declarations">Command declarations</a></h2>
 <p>A command is declared using the <code>def cmd</code> syntax.
 Commands have no type, and it is therefore not possible to write a type signature.</p>
-<pre><code>def cmd exit := ExitFailure;
+<pre><code>def cmd exit := #ExitFailure;
 
-def cmd main := ExitSuccess;
+def cmd main := #ExitSuccess;
 </code></pre>
 <p>The command called &quot;main&quot; is treated specially, since execution starts with the execution of the &quot;main&quot; command.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="kinds"><a class="header" href="#kinds">Kinds</a></h1>
@@ -412,20 +412,20 @@ It currently isn't possible to use invariant type parameters, but such a feature
 A stream has two possible observations, <code>Head</code> and <code>Tail</code>, which we call the destructors of the codata type.
 The destructor <code>Head</code> returns the first element of the stream, and the destructor <code>Tail</code> returns the remainder of the stream.</p>
 <pre><code>codata NatStream : CBN {
-    Head[Nat], 
-    Tail[NatStream]
+    Head(return Nat), 
+    Tail(return NatStream)
 };
 </code></pre>
 <p>Codata types can also be parameterized, similar to the List example of the previous section.</p>
 <pre><code>codata Stream : (+a : CBV) -&gt; CBN {
-    Head[a],
-    Tail[Stream(a)]
+    Head(return a),
+    Tail(return Stream(a))
 };
 </code></pre>
 <p>Codata types make it possible to define the function type, instead of having a builtin function type like most functional programming languages.
 The declaration of the function type looks like this.</p>
 <pre><code>codata Fun : (-a : CBV, +b CBV) -&gt; CBN {
-    Ap(a)[b]
+    Ap(a, return b)
 }
 </code></pre>
 <h5 id="restriction-on-lattice-types-in-arguments"><a class="header" href="#restriction-on-lattice-types-in-arguments">Restriction on lattice types in arguments</a></h5>
@@ -471,18 +471,18 @@ The structural encoding of booleans, for example, looks like this:</p>
 </code></pre>
 <h4 id="structural-codata-types"><a class="header" href="#structural-codata-types">Structural Codata Types</a></h4>
 <p>A destructor of a structural codata type is introduced with a <code>destructor</code> declaration.</p>
-<pre><code>destructor Ap(CBV)[CBN] : CBN;
+<pre><code>destructor Ap(CBV, return CBN) : CBN;
 </code></pre>
 <p>Structural codata types are written using braces. The structural encoding of NatStreams, for example, are written as follows:</p>
-<pre><code>mu a. { Head[Nat], Tail[a] }
+<pre><code>rec a. { Head(return Nat), Tail(return a) }
 </code></pre>
 <h2 id="structural-refinement-types"><a class="header" href="#structural-refinement-types">Structural Refinement Types</a></h2>
 <p>Structural refinement types are a novel idea in Duo which combine features from both nominal and structural types.
 They are declared similarly to nominal types, but use the additional keyword <code>refinement</code> in front of the declaration</p>
 <pre><code>refinement data Bool : CBV { True, False };
 refinement codata NatStream : CBN {
-    Head[Nat],
-    Tail[NatStream]
+    Head(return Nat),
+    Tail(return NatStream)
 };
 </code></pre>
 <p>The syntax for refinement types is very similar to the syntax for structural data and codata types, but the refined type is indicated by a vertical pipe in front of the constructors/destructors.
@@ -513,20 +513,20 @@ In distinction to lambda calculus, the term language of natural deduction, we ha
 In addition, there is a third syntactic category, commands.
 Commands are executable pieces of code.
 For example, it is possible to define producers, consumers and commands at the toplevel of the program:</p>
-<pre><code>def someProducer[*] := ...;
-def someConsumer(*) := ...;
-def someCommand := ...;
+<pre><code>def prd someProducer := ...;
+def cns someConsumer := ...;
+def cmd  someCommand := ...;
 </code></pre>
 <p>Toplevel declarations of consumers and producers can additionally be annotated with a type scheme.</p>
-<pre><code>def someProducer[*] : ... := ...;
-def someConsumer(*) : ... := ...;
+<pre><code>def prd someProducer : ... := ...;
+def cns someConsumer : ... := ...;
 </code></pre>
 <p>For example, the polymorphic identity function is defined like so:</p>
-<pre><code>def id[*] : forall (a : CBV). a -&gt; a :=
+<pre><code>def prd id : forall (a : CBV). a -&gt; a :=
   \x =&gt; x;
 </code></pre>
 <p>If a function is used recursively in its own body, the <code>rec</code> keyword is necessary:</p>
-<pre><code>def rec add[*] := \x y =&gt; case x of {
+<pre><code>def rec prd add := \x y =&gt; case x of {
     Z =&gt; y,
     S(x) =&gt; S(add x y)
 }
@@ -542,45 +542,45 @@ def someConsumer(*) : ... := ...;
 <h2 id="core-constructs"><a class="header" href="#core-constructs">Core constructs</a></h2>
 <p>Duo supports control operators in the form of the \(\mu\) and \(\tilde\mu\) constructs of the \(\lambda\mu\tilde\mu\) calculus.
 Both constructs use identical syntax.</p>
-<pre><code>def ex1[*] := mu x. ExitSuccess;
-def ex2(*) := mu x. ExitSuccess;
+<pre><code>def prd ex1 := mu x. #ExitSuccess;
+def cns ex2 := mu k. #ExitSuccess;
 </code></pre>
 <h2 id="producer-introduction-rules"><a class="header" href="#producer-introduction-rules">Producer Introduction Rules</a></h2>
 <p>The rules for data and codata types are given separately</p>
 <h4 id="data-types"><a class="header" href="#data-types">Data Types</a></h4>
 <p>Introduction rules for producers of codata types are just uses of the corresponding constructors:</p>
 <pre><code>data Nat : CBV { Z, S(Nat) };
-def ex1[*] := S(Z);
+def prd ex1 := S(Z);
 </code></pre>
 <h4 id="codata-types"><a class="header" href="#codata-types">Codata Types</a></h4>
 <p>Introduction rules for producers of codata types consists of copattern matching.</p>
-<pre><code>codata Pair(+a : CBV, +b : CBV) : CBV {
-    PiLeft[a],
-    PiRight[b]
+<pre><code>codata Pair : (+a : CBV, +b : CBV) -&gt; CBV {
+    PiLeft(return a),
+    PiRight(return b)
 };
 
-def ex1[*] : Pair(Nat,Bool):= cocase
-  { PiLeft[*] =&gt; 5,
-    PiRight[*] =&gt; True
+def prd ex1 : Pair(Nat,Bool) := cocase
+  { PiLeft(*) =&gt; 5,
+    PiRight(*) =&gt; True
   };
 
-def ex2[*] : Pair(Nat,Bool):= cocase
-  { PiLeft[k] =&gt; 5 &gt;&gt; k,
-    PiRight[k] =&gt; True &gt;&gt; k
+def prd ex2 : Pair(Nat,Bool) := cocase
+  { PiLeft(k) =&gt; 5 &gt;&gt; k,
+    PiRight(k) =&gt; True &gt;&gt; k
   };
 </code></pre>
 <h2 id="consumer-introduction-rules"><a class="header" href="#consumer-introduction-rules">Consumer Introduction Rules</a></h2>
 <p>The rules for data and codata types are given separately</p>
 <h4 id="data-types-1"><a class="header" href="#data-types-1">Data Types</a></h4>
 <p>A consumer of a data type is introduced using pattern matching</p>
-<pre><code>def ex1(*) := case {
-    Z =&gt; ExitSuccess,
-    S(x) =&gt; ExitSuccess
+<pre><code>def cns ex1 := case {
+    Z =&gt; #ExitSuccess,
+    S(x) =&gt; #ExitSuccess
 };
 </code></pre>
 <h4 id="codata-types-1"><a class="header" href="#codata-types-1">Codata Types</a></h4>
 <p>Introduction rules for consumers of codata types use one of the available destructors.</p>
-<pre><code>def ex1(*) : NatStream := Head[mu x.ExitSuccess];
+<pre><code>def cns ex1 : NatStream := Head(mu x. #ExitSuccess);
 </code></pre>
 <h2 id="producer-elimination-rules"><a class="header" href="#producer-elimination-rules">Producer Elimination Rules</a></h2>
 <p>The rules for data and codata types are given separately</p>
@@ -598,10 +598,10 @@ def ex2[*] : Pair(Nat,Bool):= cocase
 <p>Commands are the syntactic category that actually gets executed when you run a program.
 The entry point to a program, the main function, is also a command.</p>
 <h2 id="the-exit-commands"><a class="header" href="#the-exit-commands">The Exit Commands</a></h2>
-<p>The simplest commands are called <code>ExitSuccess</code> and <code>ExitFailure</code>, which are used to terminate the program.</p>
+<p>The simplest commands are called <code>#ExitSuccess</code> and <code>#ExitFailure</code>, which are used to terminate the program.</p>
 <h4 id="example-1"><a class="header" href="#example-1">Example 1:</a></h4>
 <p>We can write a simple command which just exits directly after it is called.</p>
-<pre><code>def exitAtOnce := ExitSuccess;
+<pre><code>def cmd exitAtOnce := #ExitSuccess;
 </code></pre>
 <h2 id="the-apply-command"><a class="header" href="#the-apply-command">The Apply Command</a></h2>
 <p>The most important command is called &quot;Apply&quot;.
@@ -611,18 +611,18 @@ Apply intuitively just combines a producer with a consumer of the same type.</p>
 <p>We use the <code>&gt;&gt;</code> symbol to express a cut, and write the producer on the left side of it, and the consumer on the right hand side.</p>
 <h4 id="example-1-1"><a class="header" href="#example-1-1">Example 1:</a></h4>
 <p>The following program cuts the producer <code>True</code> against a pattern match on booleans, and then exits the program.</p>
-<pre><code>def exit :=  True &gt;&gt; match { True =&gt; ExitSuccess; False =&gt; ExitSuccess };
+<pre><code>def cmd exit :=  True &gt;&gt; case { True =&gt; #ExitSuccess; False =&gt; #ExitSuccess };
 </code></pre>
 <h2 id="io-actions"><a class="header" href="#io-actions">IO Actions</a></h2>
-<p>There currently are only two IO actions provided; <code>Print</code> and <code>Read</code>.</p>
+<p>There currently are only two IO actions provided; <code>#Print</code> and <code>#Read</code>.</p>
 <p>The following program uses both to read in two numbers from the console, and to print the output back to the console.</p>
 <pre><code>import Prelude;
 
-def rec addA[*] := \x =&gt; \y =&gt; case x of { Z =&gt; y
+def rec prd addA := \x =&gt; \y =&gt; case x of { Z =&gt; y
                                       , S(z) =&gt; addA z S(y)
 					        };
 
-def main := Read[ mu x. Read[mu y. Print(addA x y);ExitSuccess]];
+def cmd main := Read[ mu x. #Read(mu y. Print(addA x y, #ExitSuccess));
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="lsp-features"><a class="header" href="#lsp-features">LSP Features</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="further-reading"><a class="header" href="#further-reading">Further Reading</a></h1>

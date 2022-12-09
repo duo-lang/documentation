@@ -149,20 +149,20 @@ In distinction to lambda calculus, the term language of natural deduction, we ha
 In addition, there is a third syntactic category, commands.
 Commands are executable pieces of code.
 For example, it is possible to define producers, consumers and commands at the toplevel of the program:</p>
-<pre><code>def someProducer[*] := ...;
-def someConsumer(*) := ...;
-def someCommand := ...;
+<pre><code>def prd someProducer := ...;
+def cns someConsumer := ...;
+def cmd  someCommand := ...;
 </code></pre>
 <p>Toplevel declarations of consumers and producers can additionally be annotated with a type scheme.</p>
-<pre><code>def someProducer[*] : ... := ...;
-def someConsumer(*) : ... := ...;
+<pre><code>def prd someProducer : ... := ...;
+def cns someConsumer : ... := ...;
 </code></pre>
 <p>For example, the polymorphic identity function is defined like so:</p>
-<pre><code>def id[*] : forall (a : CBV). a -&gt; a :=
+<pre><code>def prd id : forall (a : CBV). a -&gt; a :=
   \x =&gt; x;
 </code></pre>
 <p>If a function is used recursively in its own body, the <code>rec</code> keyword is necessary:</p>
-<pre><code>def rec add[*] := \x y =&gt; case x of {
+<pre><code>def rec prd add := \x y =&gt; case x of {
     Z =&gt; y,
     S(x) =&gt; S(add x y)
 }
@@ -178,45 +178,45 @@ def someConsumer(*) : ... := ...;
 <h2 id="core-constructs"><a class="header" href="#core-constructs">Core constructs</a></h2>
 <p>Duo supports control operators in the form of the \(\mu\) and \(\tilde\mu\) constructs of the \(\lambda\mu\tilde\mu\) calculus.
 Both constructs use identical syntax.</p>
-<pre><code>def ex1[*] := mu x. ExitSuccess;
-def ex2(*) := mu x. ExitSuccess;
+<pre><code>def prd ex1 := mu x. #ExitSuccess;
+def cns ex2 := mu k. #ExitSuccess;
 </code></pre>
 <h2 id="producer-introduction-rules"><a class="header" href="#producer-introduction-rules">Producer Introduction Rules</a></h2>
 <p>The rules for data and codata types are given separately</p>
 <h4 id="data-types"><a class="header" href="#data-types">Data Types</a></h4>
 <p>Introduction rules for producers of codata types are just uses of the corresponding constructors:</p>
 <pre><code>data Nat : CBV { Z, S(Nat) };
-def ex1[*] := S(Z);
+def prd ex1 := S(Z);
 </code></pre>
 <h4 id="codata-types"><a class="header" href="#codata-types">Codata Types</a></h4>
 <p>Introduction rules for producers of codata types consists of copattern matching.</p>
-<pre><code>codata Pair(+a : CBV, +b : CBV) : CBV {
-    PiLeft[a],
-    PiRight[b]
+<pre><code>codata Pair : (+a : CBV, +b : CBV) -&gt; CBV {
+    PiLeft(return a),
+    PiRight(return b)
 };
 
-def ex1[*] : Pair(Nat,Bool):= cocase
-  { PiLeft[*] =&gt; 5,
-    PiRight[*] =&gt; True
+def prd ex1 : Pair(Nat,Bool) := cocase
+  { PiLeft(*) =&gt; 5,
+    PiRight(*) =&gt; True
   };
 
-def ex2[*] : Pair(Nat,Bool):= cocase
-  { PiLeft[k] =&gt; 5 &gt;&gt; k,
-    PiRight[k] =&gt; True &gt;&gt; k
+def prd ex2 : Pair(Nat,Bool) := cocase
+  { PiLeft(k) =&gt; 5 &gt;&gt; k,
+    PiRight(k) =&gt; True &gt;&gt; k
   };
 </code></pre>
 <h2 id="consumer-introduction-rules"><a class="header" href="#consumer-introduction-rules">Consumer Introduction Rules</a></h2>
 <p>The rules for data and codata types are given separately</p>
 <h4 id="data-types-1"><a class="header" href="#data-types-1">Data Types</a></h4>
 <p>A consumer of a data type is introduced using pattern matching</p>
-<pre><code>def ex1(*) := case {
-    Z =&gt; ExitSuccess,
-    S(x) =&gt; ExitSuccess
+<pre><code>def cns ex1 := case {
+    Z =&gt; #ExitSuccess,
+    S(x) =&gt; #ExitSuccess
 };
 </code></pre>
 <h4 id="codata-types-1"><a class="header" href="#codata-types-1">Codata Types</a></h4>
 <p>Introduction rules for consumers of codata types use one of the available destructors.</p>
-<pre><code>def ex1(*) : NatStream := Head[mu x.ExitSuccess];
+<pre><code>def cns ex1 : NatStream := Head(mu x. #ExitSuccess);
 </code></pre>
 <h2 id="producer-elimination-rules"><a class="header" href="#producer-elimination-rules">Producer Elimination Rules</a></h2>
 <p>The rules for data and codata types are given separately</p>

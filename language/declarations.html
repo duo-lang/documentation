@@ -229,14 +229,14 @@ For recursive definitions, the keyword <code>rec</code> has to be added.</p>
 <h2 id="consumer-declarations"><a class="header" href="#consumer-declarations">Consumer declarations</a></h2>
 <p>A consumer is declared using the <code>def cns</code> syntax.
 An optional type signature can be specified.</p>
-<pre><code>def cns exitOnBool := match {
-    True =&gt; ExitSuccess;
-    False =&gt; ExitFailure;
+<pre><code>def cns exitOnBool := case {
+    True =&gt; #ExitSuccess,
+    False =&gt; #ExitFailure
 };
 
-def cns exitOnBool: Bool := match {
-    True =&gt; ExitSuccess;
-    False =&gt; ExitFailure;
+def cns exitOnBool : Bool := case {
+    True =&gt; #ExitSuccess,
+    False =&gt; #ExitFailure
 };
 </code></pre>
 <p>By default, consumers defined using the <code>def cns</code> keywords are not recursive.
@@ -244,9 +244,9 @@ For recursive definitions, the keyword <code>rec</code> has to be added.</p>
 <h2 id="command-declarations"><a class="header" href="#command-declarations">Command declarations</a></h2>
 <p>A command is declared using the <code>def cmd</code> syntax.
 Commands have no type, and it is therefore not possible to write a type signature.</p>
-<pre><code>def cmd exit := ExitFailure;
+<pre><code>def cmd exit := #ExitFailure;
 
-def cmd main := ExitSuccess;
+def cmd main := #ExitSuccess;
 </code></pre>
 <p>The command called &quot;main&quot; is treated specially, since execution starts with the execution of the &quot;main&quot; command.</p>
 

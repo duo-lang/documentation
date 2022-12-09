@@ -146,10 +146,10 @@
 <p>Commands are the syntactic category that actually gets executed when you run a program.
 The entry point to a program, the main function, is also a command.</p>
 <h2 id="the-exit-commands"><a class="header" href="#the-exit-commands">The Exit Commands</a></h2>
-<p>The simplest commands are called <code>ExitSuccess</code> and <code>ExitFailure</code>, which are used to terminate the program.</p>
+<p>The simplest commands are called <code>#ExitSuccess</code> and <code>#ExitFailure</code>, which are used to terminate the program.</p>
 <h4 id="example-1"><a class="header" href="#example-1">Example 1:</a></h4>
 <p>We can write a simple command which just exits directly after it is called.</p>
-<pre><code>def exitAtOnce := ExitSuccess;
+<pre><code>def cmd exitAtOnce := #ExitSuccess;
 </code></pre>
 <h2 id="the-apply-command"><a class="header" href="#the-apply-command">The Apply Command</a></h2>
 <p>The most important command is called &quot;Apply&quot;.
@@ -159,18 +159,18 @@ Apply intuitively just combines a producer with a consumer of the same type.</p>
 <p>We use the <code>&gt;&gt;</code> symbol to express a cut, and write the producer on the left side of it, and the consumer on the right hand side.</p>
 <h4 id="example-1-1"><a class="header" href="#example-1-1">Example 1:</a></h4>
 <p>The following program cuts the producer <code>True</code> against a pattern match on booleans, and then exits the program.</p>
-<pre><code>def exit :=  True &gt;&gt; match { True =&gt; ExitSuccess; False =&gt; ExitSuccess };
+<pre><code>def cmd exit :=  True &gt;&gt; case { True =&gt; #ExitSuccess; False =&gt; #ExitSuccess };
 </code></pre>
 <h2 id="io-actions"><a class="header" href="#io-actions">IO Actions</a></h2>
-<p>There currently are only two IO actions provided; <code>Print</code> and <code>Read</code>.</p>
+<p>There currently are only two IO actions provided; <code>#Print</code> and <code>#Read</code>.</p>
 <p>The following program uses both to read in two numbers from the console, and to print the output back to the console.</p>
 <pre><code>import Prelude;
 
-def rec addA[*] := \x =&gt; \y =&gt; case x of { Z =&gt; y
+def rec prd addA := \x =&gt; \y =&gt; case x of { Z =&gt; y
                                       , S(z) =&gt; addA z S(y)
 					        };
 
-def main := Read[ mu x. Read[mu y. Print(addA x y);ExitSuccess]];
+def cmd main := Read[ mu x. #Read(mu y. Print(addA x y, #ExitSuccess));
 </code></pre>
 
                     </main>
