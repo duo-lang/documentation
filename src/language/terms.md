@@ -72,19 +72,19 @@ def prd ex1 := S(Z);
 Introduction rules for producers of codata types consists of copattern matching.
 
 ```
-codata Pair(+a : CBV, +b : CBV) : CBV {
-    PiLeft[a],
-    PiRight[b]
+codata Pair : (+a : CBV, +b : CBV) -> CBV {
+    PiLeft(return a),
+    PiRight(return b)
 };
 
 def prd ex1 : Pair(Nat,Bool) := cocase
-  { PiLeft[*] => 5,
-    PiRight[*] => True
+  { PiLeft(*) => 5,
+    PiRight(*) => True
   };
 
 def prd ex2 : Pair(Nat,Bool) := cocase
-  { PiLeft[k] => 5 >> k,
-    PiRight[k] => True >> k
+  { PiLeft(k) => 5 >> k,
+    PiRight(k) => True >> k
   };
 ```
 
@@ -107,7 +107,7 @@ def cns ex1 := case {
 Introduction rules for consumers of codata types use one of the available destructors.
 
 ```
-def cns ex1 : NatStream := Head[mu x.ExitSuccess];
+def cns ex1 : NatStream := Head(mu x. #ExitSuccess);
 ```
 
 

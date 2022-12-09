@@ -71,8 +71,8 @@ The destructor `Head` returns the first element of the stream, and the destructo
 
 ```
 codata NatStream : CBN {
-    Head[Nat], 
-    Tail[NatStream]
+    Head(return Nat), 
+    Tail(return NatStream)
 };
 ```
 
@@ -80,8 +80,8 @@ Codata types can also be parameterized, similar to the List example of the previ
 
 ```
 codata Stream : (+a : CBV) -> CBN {
-    Head[a],
-    Tail[Stream(a)]
+    Head(return a),
+    Tail(return Stream(a))
 };
 ```
 
@@ -90,7 +90,7 @@ The declaration of the function type looks like this.
 
 ```
 codata Fun : (-a : CBV, +b CBV) -> CBN {
-    Ap(a)[b]
+    Ap(a, return b)
 }
 ```
 
@@ -161,13 +161,13 @@ mu a. < Z , S(a)>
 A destructor of a structural codata type is introduced with a `destructor` declaration.
 
 ```
-destructor Ap(CBV)[CBN] : CBN;
+destructor Ap(CBV, return CBN) : CBN;
 ```
 
 Structural codata types are written using braces. The structural encoding of NatStreams, for example, are written as follows:
 
 ```
-mu a. { Head[Nat], Tail[a] }
+rec a. { Head(return Nat), Tail(return a) }
 ```
 
 ## Structural Refinement Types
@@ -178,8 +178,8 @@ They are declared similarly to nominal types, but use the additional keyword `re
 ```
 refinement data Bool : CBV { True, False };
 refinement codata NatStream : CBN {
-    Head[Nat],
-    Tail[NatStream]
+    Head(return Nat),
+    Tail(return NatStream)
 };
 ```
 
