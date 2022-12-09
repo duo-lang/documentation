@@ -8,29 +8,29 @@ Commands are executable pieces of code.
 For example, it is possible to define producers, consumers and commands at the toplevel of the program:
 
 ```
-def someProducer[*] := ...;
-def someConsumer(*) := ...;
-def someCommand := ...;
+def prd someProducer := ...;
+def cns someConsumer := ...;
+def cmd  someCommand := ...;
 ```
 
 Toplevel declarations of consumers and producers can additionally be annotated with a type scheme.
 
 ```
-def someProducer[*] : ... := ...;
-def someConsumer(*) : ... := ...;
+def prd someProducer : ... := ...;
+def cns someConsumer : ... := ...;
 ```
 
 For example, the polymorphic identity function is defined like so:
 
 ```
-def id[*] : forall (a : CBV). a -> a :=
+def prd id : forall (a : CBV). a -> a :=
   \x => x;
 ```
 
 If a function is used recursively in its own body, the `rec` keyword is necessary:
 
 ```
-def rec add[*] := \x y => case x of {
+def rec prd add := \x y => case x of {
     Z => y,
     S(x) => S(add x y)
 }
@@ -50,8 +50,8 @@ Duo supports control operators in the form of the \\(\mu\\) and \\(\tilde\mu\\) 
 Both constructs use identical syntax.
 
 ```
-def ex1[*] := mu x. ExitSuccess;
-def ex2(*) := mu x. ExitSuccess;
+def prd ex1 := mu x. #ExitSuccess;
+def cns ex2 := mu k. #ExitSuccess;
 ```
 
 ## Producer Introduction Rules
@@ -64,7 +64,7 @@ Introduction rules for producers of codata types are just uses of the correspond
 
 ```
 data Nat : CBV { Z, S(Nat) };
-def ex1[*] := S(Z);
+def prd ex1 := S(Z);
 ```
 
 #### Codata Types
@@ -72,19 +72,19 @@ def ex1[*] := S(Z);
 Introduction rules for producers of codata types consists of copattern matching.
 
 ```
-codata Pair(+a : CBV, +b : CBV) : CBV {
-    PiLeft[a],
-    PiRight[b]
+codata Pair : (+a : CBV, +b : CBV) -> CBV {
+    PiLeft(return a),
+    PiRight(return b)
 };
 
-def ex1[*] : Pair(Nat,Bool):= cocase
-  { PiLeft[*] => 5,
-    PiRight[*] => True
+def prd ex1 : Pair(Nat,Bool) := cocase
+  { PiLeft(*) => 5,
+    PiRight(*) => True
   };
 
-def ex2[*] : Pair(Nat,Bool):= cocase
-  { PiLeft[k] => 5 >> k,
-    PiRight[k] => True >> k
+def prd ex2 : Pair(Nat,Bool) := cocase
+  { PiLeft(k) => 5 >> k,
+    PiRight(k) => True >> k
   };
 ```
 
@@ -97,9 +97,9 @@ The rules for data and codata types are given separately
 A consumer of a data type is introduced using pattern matching
 
 ```
-def ex1(*) := case {
-    Z => ExitSuccess,
-    S(x) => ExitSuccess
+def cns ex1 := case {
+    Z => #ExitSuccess,
+    S(x) => #ExitSuccess
 };
 ```
 
@@ -107,7 +107,7 @@ def ex1(*) := case {
 Introduction rules for consumers of codata types use one of the available destructors.
 
 ```
-def ex1(*) : NatStream := Head[mu x.ExitSuccess];
+def cns ex1 : NatStream := Head(mu x. #ExitSuccess);
 ```
 
 

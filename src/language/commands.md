@@ -5,14 +5,14 @@ The entry point to a program, the main function, is also a command.
 
 ## The Exit Commands
 
-The simplest commands are called `ExitSuccess` and `ExitFailure`, which are used to terminate the program.
+The simplest commands are called `#ExitSuccess` and `#ExitFailure`, which are used to terminate the program.
 
 #### Example 1:
 
 We can write a simple command which just exits directly after it is called.
 
 ```
-def exitAtOnce := ExitSuccess;
+def cmd exitAtOnce := #ExitSuccess;
 ```
 
 ## The Apply Command
@@ -30,21 +30,21 @@ We use the `>>` symbol to express a cut, and write the producer on the left side
 The following program cuts the producer `True` against a pattern match on booleans, and then exits the program.
 
 ```
-def exit :=  True >> match { True => ExitSuccess; False => ExitSuccess };
+def cmd exit :=  True >> case { True => #ExitSuccess; False => #ExitSuccess };
 ```
 
 ## IO Actions
 
-There currently are only two IO actions provided; `Print` and `Read`.
+There currently are only two IO actions provided; `#Print` and `#Read`.
 
 The following program uses both to read in two numbers from the console, and to print the output back to the console.
 
 ```
 import Prelude;
 
-def rec addA[*] := \x => \y => case x of { Z => y
+def rec prd addA := \x => \y => case x of { Z => y
                                       , S(z) => addA z S(y)
 					        };
 
-def main := Read[ mu x. Read[mu y. Print(addA x y);ExitSuccess]];
+def cmd main := Read[ mu x. #Read(mu y. Print(addA x y, #ExitSuccess));
 ```
