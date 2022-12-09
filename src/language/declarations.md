@@ -157,3 +157,38 @@ def cmd main := #ExitSuccess;
 ```
 
 The command called "main" is treated specially, since execution starts with the execution of the "main" command.
+
+## Type Class declarations
+
+A type class is declared using the `class` keyword.
+Currently only single parameter type classes are supported, thus a single type variable together with its kind and variance have to be declared.
+
+```
+class Show(+a : CBV){
+    Show(a, return String)
+};
+```
+
+Inside the body of the class declaration an arbitrary number of type class methods can be defined.
+The signature has to respect the variance of the type variable above.
+Method and type class name live in different name spaces, so it is possible to overload them.
+
+## Instance declarations
+
+An instance of a type class is declared using the `instance` keyword.
+Unlike in languages such as Haskell, instances have to be named.
+
+```
+instance showBool : Show Bool {
+    Show(b, k) => case b of {
+        True => MkString("True"),
+        False => MkString("False")
+    } >> k
+};
+```
+
+Type class methods are implemented as commands and can be used as such, e.g.:
+
+```
+def cmd main := Show(True, mu x. #Print(x, #ExitSuccess));
+```
