@@ -131,14 +131,14 @@ A consumer is declared using the `def cns` syntax.
 An optional type signature can be specified.
 
 ```
-def cns exitOnBool := match {
-    True => ExitSuccess;
-    False => ExitFailure;
+def cns exitOnBool := case {
+    True => #ExitSuccess,
+    False => #ExitFailure
 };
 
-def cns exitOnBool: Bool := match {
-    True => ExitSuccess;
-    False => ExitFailure;
+def cns exitOnBool : Bool := case {
+    True => #ExitSuccess,
+    False => #ExitFailure
 };
 ```
 
@@ -151,9 +151,9 @@ A command is declared using the `def cmd` syntax.
 Commands have no type, and it is therefore not possible to write a type signature.
 
 ```
-def cmd exit := ExitFailure;
+def cmd exit := #ExitFailure;
 
-def cmd main := ExitSuccess;
+def cmd main := #ExitSuccess;
 ```
 
 The command called "main" is treated specially, since execution starts with the execution of the "main" command.

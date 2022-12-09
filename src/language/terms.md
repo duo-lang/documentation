@@ -50,8 +50,8 @@ Duo supports control operators in the form of the \\(\mu\\) and \\(\tilde\mu\\) 
 Both constructs use identical syntax.
 
 ```
-def ex1[*] := mu x. ExitSuccess;
-def ex2(*) := mu x. ExitSuccess;
+def ex1[*] := mu x. #ExitSuccess;
+def ex2(*) := mu x. #ExitSuccess;
 ```
 
 ## Producer Introduction Rules
@@ -98,8 +98,8 @@ A consumer of a data type is introduced using pattern matching
 
 ```
 def ex1(*) := case {
-    Z => ExitSuccess,
-    S(x) => ExitSuccess
+    Z => #ExitSuccess,
+    S(x) => #ExitSuccess
 };
 ```
 
