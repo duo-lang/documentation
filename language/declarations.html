@@ -249,6 +249,29 @@ Commands have no type, and it is therefore not possible to write a type signatur
 def cmd main := #ExitSuccess;
 </code></pre>
 <p>The command called &quot;main&quot; is treated specially, since execution starts with the execution of the &quot;main&quot; command.</p>
+<h2 id="type-class-declarations"><a class="header" href="#type-class-declarations">Type Class declarations</a></h2>
+<p>A type class is declared using the <code>class</code> keyword.
+Currently only single parameter type classes are supported, thus a single type variable together with its kind and variance have to be declared.</p>
+<pre><code>class Show(+a : CBV){
+    Show(a, return String)
+};
+</code></pre>
+<p>Inside the body of the class declaration an arbitrary number of type class methods can be defined.
+The signature has to respect the variance of the type variable above.
+Method and type class name live in different name spaces, so it is possible to overload them.</p>
+<h2 id="instance-declarations"><a class="header" href="#instance-declarations">Instance declarations</a></h2>
+<p>An instance of a type class is declared using the <code>instance</code> keyword.
+Unlike in languages such as Haskell, instances have to be named.</p>
+<pre><code>instance showBool : Show Bool {
+    Show(b, k) =&gt; case b of {
+        True =&gt; MkString(&quot;True&quot;),
+        False =&gt; MkString(&quot;False&quot;)
+    } &gt;&gt; k
+};
+</code></pre>
+<p>Type class methods are implemented as commands and can be used as such, e.g.:</p>
+<pre><code>def cmd main := Show(True, mu x. #Print(x, #ExitSuccess));
+</code></pre>
 
                     </main>
 
